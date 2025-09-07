@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+}
+
+#container {
+  width: 1000px;
+
+}
+
+#front-canvas {
+  border: red 1px solid;
+  position: absolute;
+  transform: translate(165px, 155px) perspective(50cm) rotateX(-20deg) rotateZ(0deg) rotateY(-4.5deg);
+  opacity: 0.7;
+}
+
+#video-loop {
+  width: 100%;
+}

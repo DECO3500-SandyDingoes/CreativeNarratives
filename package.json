@@ -1,5 +1,5 @@
 {
-  "name": "deco3500-creative-narratives",
+  "name": "creative-narratives",
   "version": "1.0.0",
   "description": "Digital public art installation that supports community narrative.",
   "homepage": "https://github.com/DECO3500-SandyDingoes/CreativeNarratives#readme",
@@ -11,6 +11,7 @@
     "url": "git+https://github.com/DECO3500-SandyDingoes/CreativeNarratives.git"
   },
   "workspaces": [
-    "editor"
+    "editor",
+    "installation"
   ]
 }

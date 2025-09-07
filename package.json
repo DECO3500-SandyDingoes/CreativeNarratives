@@ -1,0 +1,16 @@
+{
+  "name": "deco3500-creative-narratives",
+  "version": "1.0.0",
+  "description": "Digital public art installation that supports community narrative.",
+  "homepage": "https://github.com/DECO3500-SandyDingoes/CreativeNarratives#readme",
+  "bugs": {
+    "url": "https://github.com/DECO3500-SandyDingoes/CreativeNarratives/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DECO3500-SandyDingoes/CreativeNarratives.git"
+  },
+  "workspaces": [
+    "editor"
+  ]
+}

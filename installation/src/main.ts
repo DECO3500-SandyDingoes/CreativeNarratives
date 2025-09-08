@@ -13,19 +13,19 @@ let angle = 0
 const initFrontCanvas = () => {
   const canvasElement = (document.getElementById("front-canvas") as HTMLCanvasElement)
   if (canvasElement) {
-    const canvas = new StaticCanvas(canvasElement, { width: 800, height: 30 })
+    const canvas = new StaticCanvas(canvasElement, { width: 600, height: 20 })
 
-    const text = new Textbox("What's going on?",
+    const text = new Textbox("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur, ipsa!",
       {
-        top: 5,
-        left: 400,
-        width: 200,
+        top: -2,
+        left: 40,
+        width: 600,
         fontSize: 20,
         fill: "white",
       }
     )
 
-    const rectangle = new Rect({ top: 10, left: 10, width: 10, height: 10, fill: "red" })
+    const rectangle = new Rect({ top: 0, left: 40, width: 40, height: 40, fill: "red" })
 
     setInterval(() => {
       angle += 1

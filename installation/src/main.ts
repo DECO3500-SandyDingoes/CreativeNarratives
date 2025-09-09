@@ -21,19 +21,23 @@ const initFrontCanvas = () => {
         left: 40,
         width: 600,
         fontSize: 20,
-        fill: "white",
+        fill: "transparent",
+        stroke: "limegreen",
+        strokeWidth: 0.25,
       }
     )
 
-    const rectangle = new Rect({ top: 0, left: 40, width: 40, height: 40, fill: "red" })
+    canvas.add(text)
 
-    setInterval(() => {
-      angle += 1
-      rectangle.rotate(angle)
-      canvas.renderAll()
-    }, .1)
+    // const rectangle = new Rect({ top: 0, left: 40, width: 40, height: 40, fill: "red" })
 
-    canvas.add(rectangle, text)
+    // setInterval(() => {
+    //   angle += 1
+    //   rectangle.rotate(angle)
+    //   canvas.renderAll()
+    // }, .1)
+
+    // canvas.add(rectangle)
   }
 }
 

@@ -1,12 +1,16 @@
 import './style.css'
 import { helloShared } from "../../shared/shared";
 import { Rect, StaticCanvas, Textbox } from 'fabric';
+import montserratSource from "../../shared/fonts/Montserrat-Medium.ttf"
 
 
-const message = document.getElementById("message")
-if (message) {
-  message.innerText = helloShared("installation")
-}
+// const message = document.getElementById("message")
+// if (message) {
+//   message.innerText = helloShared("installation")
+// }
+
+const montserrat = new FontFace("montserrat", montserratSource as string)
+montserrat.load()
 
 let angle = 0
 

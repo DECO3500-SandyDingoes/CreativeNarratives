@@ -1,0 +1,26 @@
+/* Graffiti Youth (OTF) */
+@font-face {
+  font-family: "Graffiti Youth";
+  src: url("/fonts/graffiti_youth/GraffitiYouth-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Redoura (TTF) — note the space in the filename */
+@font-face {
+  font-family: "Redoura";
+  src: url("/fonts/redoura/Redoura DEMO.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Super Woobly (TTF) — note the space in the filename */
+@font-face {
+  font-family: "Super Woobly";
+  src: url("/fonts/super_woobly/Super Woobly.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

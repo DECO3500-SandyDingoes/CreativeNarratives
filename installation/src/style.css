@@ -2,19 +2,53 @@ body {
   margin: 0;
 }
 
-#container {
-  width: 800px;
-
+.z-stack {
+  display: grid;
 }
 
-#front-canvas {
-  /* border: red 1px solid; */
-  position: absolute;
-  transform: translate(250px, 232px) perspective(12cm) rotateX(352.5deg) rotateY(58.5deg) rotateZ(21.5deg);
-  /* transform: translate(250px, 230px) perspective(12cm) rotateX(353deg) rotateY(58deg) rotateZ(21.5deg); */
+#simulator>* {
+  width: 100%;
+}
+
+.z-stack>* {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+#projection>* {
+  /* border: red 2px dashed; */
+  overflow: hidden;
+  text-wrap-mode: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 0.05vw rgb(182, 255, 23);
+  display: flex;
+  align-items: flex-end;
+  opacity: 0.4;
+}
+
+#projection>*:nth-child(1) {
+  font-size: 2vw;
+  width: 70.5vw;
+  height: 3vw;
+  box-sizing: border-box;
+  clip-path: polygon(100.01% 0.02%, 100% 100%, 0% 100%, -0.12% -0.81%, 12.89% 14.44%, 14.98% 78.89%, 17.58% 2.70%, 25.31% -0.18%) view-box;
+  transform: translate(38vw, 27.3vw) perspective(50vw) rotateX(416.5deg) rotateY(54.5deg) rotateZ(-28.7deg);
   opacity: 0.6;
 }
 
-#video-loop {
-  width: 100%;
+#projection>*:nth-child(2) {
+  font-size: 2vw;
+  width: 65vw;
+  height: 3vw;
+  box-sizing: border-box;
+  transform: translate(36vw, 28.8vw) perspective(50vw) rotateX(398deg) rotateY(54.5deg) rotateZ(-13.7deg);
+}
+
+#projection>*:nth-child(3) {
+  font-size: 2vw;
+  width: 65vw;
+  height: 3vw;
+  box-sizing: border-box;
+  clip-path: polygon(100% 29.7%, 100% 100%, 0% 100%, 0.00% 26.8%) view-box;
+  transform: translate(30vw, 29.3vw) perspective(57vw) rotateX(380deg) rotateY(54.5deg) rotateZ(-1.2deg);
 }

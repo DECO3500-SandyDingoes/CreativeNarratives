@@ -254,7 +254,7 @@ export default function App() {
       if (status == "success") {
         alert("Installation received message!")
       } else {
-        alert("Installation rejected message.")
+        alert("Installation rejected message: " + status)
       }
     }).catch(error => {
       alert("Error sending: " + error)

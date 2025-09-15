@@ -5,7 +5,7 @@ export interface Message {
   text: string,
 }
 
-export type Status = "success" | "failure"
+export type Status = "success" | "format-issue" | "wrong-pin"
 
 export type MessageHandler = (msg: Message) => Status
 
@@ -21,10 +21,9 @@ export const startListening = (handle: MessageHandler) => {
     conn.on("data", data => {
       console.log(data)
       try {
-        handle(JSON.parse(data as string))
-        conn.send("success")
+        conn.send(handle(JSON.parse(data as string)))
       } catch (error) {
-        conn.send("failure")
+        conn.send("format-issue")
         console.error("Failed to parse message: " + error)
       }
     })

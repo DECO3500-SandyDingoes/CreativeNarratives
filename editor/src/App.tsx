@@ -89,7 +89,7 @@ function getSelectionOffsets(root: HTMLElement): { start: number; end: number } 
   const end = toOffset(range.endContainer, range.endOffset);
   return { start: Math.min(start, end), end: Math.max(start, end) };
 }
-function setCaret(root: HTMLElement, runs: Run[], offset: number) {
+function setCaret(root: HTMLElement, _runs: Run[], offset: number) {
   const spans = root.querySelectorAll<HTMLElement>("[data-run]");
   let acc = 0;
   for (let i = 0; i < spans.length; i++) {

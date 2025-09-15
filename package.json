@@ -13,8 +13,5 @@
   "workspaces": [
     "editor",
     "installation"
-  ],
-  "dependencies": {
-    "fabric": "^6.7.1"
-  }
+  ]
 }

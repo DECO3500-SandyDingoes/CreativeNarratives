@@ -1,4 +1,59 @@
+import { Peer } from "peerjs"
 
-export function helloShared(to: string) {
-  return `hello ${to} from shared!`
+export interface Message {
+  pin: string,
+  text: string,
+}
+
+export type Status = "success" | "failure"
+
+export type MessageHandler = (msg: Message) => Status
+
+// This is the ID used to identify the installation
+const peerId = "3a56a8aa-6cb4-49fa-93d6-737ef9f1b102"
+
+export const startListening = (handle: MessageHandler) => {
+  const peer = new Peer(peerId)
+
+  console.log("Starting to listen for connections at: " + peerId)
+  peer.on("connection", conn => {
+    console.log("Connection opened from: " + conn.peer)
+    conn.on("data", data => {
+      console.log(data)
+      try {
+        handle(JSON.parse(data as string))
+        conn.send("success")
+      } catch (error) {
+        conn.send("failure")
+        console.error("Failed to parse message: " + error)
+      }
+    })
+  })
+}
+
+export const send = async (msg: Message): Promise<Status> => {
+  return new Promise<Status>((resolve, reject) => {
+    const peer = new Peer(crypto.randomUUID(), { debug: 0 })
+    const timeout = setTimeout(() => {
+      peer.disconnect()
+      reject("timed out")
+    }, 5000)
+    peer.on("open", _id => {
+      const conn = peer.connect(peerId, { reliable: true })
+      conn.on("open", () => {
+        conn.send(JSON.stringify(msg))
+      })
+      conn.on("data", data => {
+        clearTimeout(timeout)
+        resolve(data as Status)
+        conn.close()
+        peer.disconnect()
+      })
+      conn.on("error", error => {
+        conn.close()
+        peer.disconnect()
+        reject(error)
+      })
+    })
+  })
 }

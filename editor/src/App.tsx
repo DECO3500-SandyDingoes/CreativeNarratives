@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
+import { send } from "../../shared/shared"
 
 /** Per-character editor — SAME implementation, new layout
  * Top-right "Done", centered edit area, color row, font row + shuffle
@@ -242,7 +243,23 @@ export default function App() {
   });
 
   // header "Done" -> just blur for now
-  const handleDone = () => editorRef.current?.blur();
+  const handleDone = () => {
+    const text = prompt("Enter text to send:") ?? ""
+    const pin = prompt("Enter the pin:") ?? ""
+
+    send({
+      text,
+      pin,
+    }).then(status => {
+      if (status == "success") {
+        alert("Installation received message!")
+      } else {
+        alert("Installation rejected message.")
+      }
+    }).catch(error => {
+      alert("Error sending: " + error)
+    })
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#fff", display: "flex", flexDirection: "column" }}>

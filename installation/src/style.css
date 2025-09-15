@@ -1,3 +1,24 @@
+@font-face {
+  font-family: "Graffiti Youth";
+  src: url("/fonts/GraffitiYouth-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Super Woobly";
+  src: url("/fonts/SuperWoobly.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-Medium.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
 body {
   margin: 0;
 }
@@ -17,16 +38,41 @@ body {
 
 #projection>* {
   /* border: red 2px dashed; */
+  font-family: "Graffiti Youth";
   overflow: hidden;
   text-wrap-mode: nowrap;
   color: transparent;
   -webkit-text-stroke: 0.05vw rgb(182, 255, 23);
   display: flex;
-  align-items: flex-end;
-  opacity: 0.4;
+  align-items: center;
+  /* opacity: 0.4; */
+  animation: flicker 1s linear infinite;
 }
 
+@keyframes flicker {
+
+  0%,
+  19%,
+  22%,
+  62%,
+  64%,
+  70%,
+  100% {
+    opacity: 0.50;
+  }
+
+  20%,
+  21%,
+  63%,
+  65%,
+  69.9% {
+    opacity: 0.45;
+  }
+}
+
+
 #projection>*:nth-child(1) {
+  animation-delay: 1s;
   font-size: 2vw;
   width: 70.5vw;
   height: 3vw;
@@ -37,6 +83,7 @@ body {
 }
 
 #projection>*:nth-child(2) {
+  animation-delay: 0.3s;
   font-size: 2vw;
   width: 65vw;
   height: 3vw;
@@ -45,10 +92,20 @@ body {
 }
 
 #projection>*:nth-child(3) {
+  animation-delay: 0.5s;
   font-size: 2vw;
   width: 65vw;
   height: 3vw;
   box-sizing: border-box;
   clip-path: polygon(100% 29.7%, 100% 100%, 0% 100%, 0.00% 26.8%) view-box;
   transform: translate(30vw, 29.3vw) perspective(57vw) rotateX(380deg) rotateY(54.5deg) rotateZ(-1.2deg);
+}
+
+#link-info {
+  width: 12vw;
+  font-family: "Montserrat";
+  font-size: 1vw;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  column-gap: 0.4vw;
 }

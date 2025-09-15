@@ -22,6 +22,10 @@ updatePin()
 const handleMessage = (msg: Message): Status => {
   if (msg.pin == currentPin) {
     console.log("PIN Accepted, text: " + msg.text)
+    const secondBeamElement = document.getElementById("second-beam")
+    if (secondBeamElement) {
+      secondBeamElement.innerText = msg.text
+    }
     return "success"
   } else {
     console.log("Pin rejected")

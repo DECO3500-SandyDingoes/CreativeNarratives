@@ -42,7 +42,7 @@ body {
   overflow: hidden;
   text-wrap-mode: nowrap;
   color: transparent;
-  -webkit-text-stroke: 0.05vw rgb(182, 255, 23);
+  -webkit-text-stroke: 0.03vw rgb(182, 255, 23);
   display: flex;
   align-items: center;
   /* opacity: 0.4; */
@@ -58,7 +58,8 @@ body {
   64%,
   70%,
   100% {
-    opacity: 0.50;
+    opacity: 0.80;
+    padding-left: 0.02vw;
   }
 
   20%,
@@ -66,7 +67,8 @@ body {
   63%,
   65%,
   69.9% {
-    opacity: 0.45;
+    opacity: 0.75;
+    padding-left: 0px;
   }
 }
 

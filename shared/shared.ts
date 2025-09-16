@@ -1,8 +1,10 @@
 import { Peer } from "peerjs"
 
+export type Run = { text: string; fontFamily: string; color: string };
+
 export interface Message {
   pin: string,
-  text: string,
+  text: Run[],
 }
 
 export type Status = "success" | "format-issue" | "wrong-pin"

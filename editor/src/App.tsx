@@ -1,11 +1,10 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
-import { send } from "../../shared/shared"
+import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { send, type Run } from "../../shared/shared"
 
 /** Per-character editor — SAME implementation, new layout
  * Top-right "Done", centered edit area, color row, font row + shuffle
  */
 
-type Run = { text: string; fontFamily: string; color: string };
 type EditType = "insertText" | "deleteContentBackward" | "insertFromPaste" | "insertLineBreak";
 
 // Use the exact families you enabled (Google + self-hosted)
@@ -242,13 +241,10 @@ export default function App() {
     }
   });
 
-  // header "Done" -> just blur for now
-  const handleDone = () => {
-    const text = prompt("Enter text to send:") ?? ""
+  const sendRuns = useCallback(() => {
     const pin = prompt("Enter the pin:") ?? ""
-
     send({
-      text,
+      text: runs,
       pin,
     }).then(status => {
       if (status == "success") {
@@ -259,6 +255,10 @@ export default function App() {
     }).catch(error => {
       alert("Error sending: " + error)
     })
+  }, [runs])
+
+  const handleDone = () => {
+    sendRuns()
   }
 
   return (

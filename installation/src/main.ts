@@ -24,7 +24,7 @@ const handleMessage = (msg: Message): Status => {
     console.log("PIN Accepted, text: " + msg.text)
     const secondBeamElement = document.getElementById("second-beam")
     if (secondBeamElement) {
-      secondBeamElement.innerText = msg.text
+      // secondBeamElement.innerText = msg.text
     }
     return "success"
   } else {

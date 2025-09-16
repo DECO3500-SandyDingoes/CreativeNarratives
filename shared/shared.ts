@@ -10,10 +10,10 @@ export type Status = "success" | "format-issue" | "wrong-pin"
 export type MessageHandler = (msg: Message) => Status
 
 // This is the ID used to identify the installation
-const peerId = "3a56a8aa-6cb4-49fa-93d6-737ef9f1b102"
+const peerId = "3a56a8aa-6cb4-49fa-93d6-737ef9f1b103"
 
 export const startListening = (handle: MessageHandler) => {
-  const peer = new Peer(peerId)
+  const peer = new Peer(peerId, { debug: 3 })
 
   console.log("Starting to listen for connections at: " + peerId)
   peer.on("connection", conn => {

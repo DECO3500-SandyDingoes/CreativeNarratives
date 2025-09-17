@@ -1,8 +1,7 @@
-import { startListening, type Message, type Status } from "../../shared/shared"
+import { startListening, type Message, type Run, type Status } from "../../shared/shared"
 import './style.css'
 
-
-
+// Handle updating and displaying PIN code
 const generatePin = (): string => {
   const pin = 1000 + Math.floor(Math.random() * 8999)
   return pin.toString()
@@ -18,14 +17,36 @@ const updatePin = () => {
 setInterval(() => updatePin(), 5 * 60 * 1000)
 updatePin()
 
+// Handle story content on beams
+interface Story {
+  text: Run[]
+}
 
+const beamStories: Story[][] = [[], [], []]
+
+const addStory = (story: Story) => {
+  beamStories[1].push(story)
+  updateStoryDisplay()
+}
+
+const updateStoryDisplay = () => {
+  const secondBeamElement = document.getElementById("second-beam")
+  if (secondBeamElement) {
+    secondBeamElement.innerHTML = ""
+    const secondBeamStories = beamStories[1]
+    for (let i = secondBeamStories.length - 1; i > 0; i--) {
+      const story = secondBeamStories[i];
+      secondBeamElement.innerHTML += JSON.stringify(story.text)
+    }
+  }
+}
+
+
+// Handle incoming messsages
 const handleMessage = (msg: Message): Status => {
   if (msg.pin == currentPin) {
     console.log("PIN Accepted, text: " + msg.text)
-    const secondBeamElement = document.getElementById("second-beam")
-    if (secondBeamElement) {
-      // secondBeamElement.innerText = msg.text
-    }
+    addStory({ text: msg.text })
     return "success"
   } else {
     console.log("Pin rejected")

@@ -13,7 +13,7 @@ export async function onRequestPost(context) {
     try {
       const result = await context.env.db
         .prepare("INSERT INTO stories (timestamp, content) VALUES (?, ?)")
-        .bind(timestamp, body.content)
+        .bind(timestamp, JSON.stringify(body.content))
         .run()
 
       if (result.success) {
@@ -31,6 +31,7 @@ export async function onRequestPost(context) {
         )
       }
     } catch (error) {
+      console.error(error)
       return Response.json(
         {
           message: "There was a database error."

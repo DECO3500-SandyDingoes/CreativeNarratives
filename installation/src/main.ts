@@ -1,6 +1,8 @@
 import { startListening, type Message, type Run, type Status } from "../../shared/shared"
 import './style.css'
 
+const INSTALLATION_KEY = "c757ae22-2be3-461c-9ab4-53da3ea87a29"
+
 // Handle updating and displaying PIN code
 const generatePin = (): string => {
   const pin = 1000 + Math.floor(Math.random() * 8999)

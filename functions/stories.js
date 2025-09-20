@@ -5,10 +5,11 @@ export async function onRequestGet(context) {
 }
 
 export async function onRequestPost(context) {
+  const currentCode = await context.env.kv.get("code");
   const body = await context.request.json()
   const timestamp = Date.now()
 
-  if (body.code == context.env.INSTALLATION_KEY) {
+  if (body.code == currentCode) {
     try {
       const result = await context.env.db
         .prepare("INSERT INTO stories (timestamp, content) VALUES (?, ?)")

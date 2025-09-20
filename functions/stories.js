@@ -10,10 +10,18 @@ export async function onRequestGet(context) {
           .prepare("SELECT * FROM stories WHERE timestamp >= ? ORDER BY timestamp DESC")
           .bind(searchParams.get("timestamp"))
           .run()
-        return Response.json(result.results)
+
+        // De-stringify (parse) content structure back into an object. 
+        const stories = result.results.map(story => ({ ...story, content: JSON.parse(story.content) }))
+
+        return Response.json(stories)
       } else {
         const result = await context.env.db.prepare("SELECT * FROM stories ORDER BY timestamp DESC LIMIT 100").run()
-        return Response.json(result.results)
+
+        // De-stringify (parse) content structure back into an object. 
+        const stories = result.results.map(story => ({ ...story, content: JSON.parse(story.content) }))
+
+        return Response.json(stories)
       }
     } else {
       return Response.json(

@@ -242,19 +242,16 @@ export default function App() {
   });
 
   const sendRuns = useCallback(() => {
-    const pin = prompt("Enter the pin:") ?? ""
-    send({
-      text: runs,
-      pin,
-    }).then(status => {
-      if (status == "success") {
-        alert("Installation received message!")
-      } else {
-        alert("Installation rejected message: " + status)
-      }
-    }).catch(error => {
-      alert("Error sending: " + error)
-    })
+    const code = prompt("Enter the code:")
+
+    if (code) {
+      send({
+        content: runs,
+        code,
+      })
+        .then(statusMessage => alert("Success: " + statusMessage))
+        .catch(error => alert("Error: " + error))
+    }
   }, [runs])
 
   const handleDone = () => {

@@ -16,21 +16,21 @@ export async function onRequestPost(context) {
         .run()
 
       if (result.success) {
-        return new Response.json(
+        return Response.json(
           {
             message: "Story received successfully.",
             timestamp,
           }
         )
       } else {
-        return new Response.json(
+        return Response.json(
           {
             message: "Failed to record story on backend.",
           }
         )
       }
     } catch (error) {
-      return new Response.json(
+      return Response.json(
         {
           message: "There was a database error."
         },
@@ -40,7 +40,7 @@ export async function onRequestPost(context) {
       )
     }
   } else {
-    return new Response.json(
+    return Response.json(
       {
         message: "The code " + body.code + " has expired or was invalid."
       },

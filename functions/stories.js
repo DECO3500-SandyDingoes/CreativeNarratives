@@ -1,7 +1,41 @@
 export async function onRequestGet(context) {
-  const query = context.env.db.prepare("SELECT * FROM stories")
-  const results = await query.raw()
-  return Response.json(results)
+  try {
+    const installationKey = await context.env.kv.get("INSTALLATION_KEY");
+    const { searchParams } = new URL(context.request.url)
+    const requestKey = context.request.headers.get("X-INSTALLATION-KEY")
+
+    if (requestKey == installationKey) {
+      if (searchParams.has("timestamp")) {
+        const result = await context.env.db
+          .prepare("SELECT * FROM stories WHERE timestamp >= ? ORDER BY timestamp DESC")
+          .bind(searchParams.get("timestamp"))
+          .run()
+        return Response.json(result.results)
+      } else {
+        const result = await context.env.db.prepare("SELECT * FROM stories ORDER BY timestamp DESC LIMIT 100").run()
+        return Response.json(result.results)
+      }
+    } else {
+      return Response.json(
+        {
+          message: "Missing or invalid installation key."
+        },
+        {
+          status: 400
+        }
+      )
+    }
+  } catch (error) {
+    console.error(error)
+    return Response.json(
+      {
+        message: "There was a database error."
+      },
+      {
+        status: 500
+      }
+    )
+  }
 }
 
 export async function onRequestPost(context) {

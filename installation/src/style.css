@@ -118,4 +118,17 @@ body {
 
 .beam {
   display: flex;
+  gap: 0.5vw;
+}
+
+.font-montserrat {
+  font-family: "Montserrat";
+}
+
+.font-super-woobly {
+  font-family: "Super Woobly";
+}
+
+.font-graffiti-youth {
+  font-family: "Graffiti Youth";
 }

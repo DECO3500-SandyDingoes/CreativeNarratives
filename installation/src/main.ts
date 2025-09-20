@@ -133,16 +133,38 @@ const updateStoryDisplay = () => {
     for (let storyIndex = 0; storyIndex < beamStories.length; storyIndex++) {
       const story = beamStories[storyIndex];
 
-      const plainText = story.content.reduce((text, run) => text + run.text, "")
+      // Keeping plain text version to be used for calculating layout
+      // and filtering "bad" words. 
+      //
+      // const plainText = story.content.reduce((text, run) => text + run.text, "")
 
       // Build formatted text spans inside an article container
       const storyContainer = document.createElement("article")
-      const storyText = document.createElement("span")
-      storyText.innerText = plainText
-      storyContainer.appendChild(storyText)
+
+      for (const run of story.content) {
+        const runText = document.createElement("span")
+        runText.innerText = run.text
+        runText.classList.add(mapFont(run.fontFamily))
+        storyContainer.appendChild(runText)
+      }
+
 
       // Append article container to the beam element
       beamElement.appendChild(storyContainer)
     }
   }
 }
+
+const mapFont = (name: string): string => {
+  switch (name) {
+    case "Montserrat":
+      return "font-montserrat"
+    case "Super Woobly":
+      return "font-super-woobly"
+    case "Graffiti Youth":
+    default:
+      return "font-graffiti-youth"
+  }
+}
+
+// TODO: Create mapColour function

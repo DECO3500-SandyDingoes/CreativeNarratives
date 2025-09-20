@@ -1,5 +1,7 @@
-import { BASE_URL } from "../../shared/shared"
+import { BASE_URL, type Run } from "../../shared/shared"
 import './style.css'
+
+//// PIN Code Handling ////
 
 /**
  * The key used to authenticate the installation with the backend service.
@@ -50,30 +52,97 @@ const updateCode = () => {
 updateCode()
 setInterval(() => updateCode(), 5 * 60 * 1000)
 
-// Handle story content on beams
-// interface Story {
-//   text: Run[]
-// }
+//// Story Content Handling ////
 
-// const beamStories: Story[][] = [[], [], []]
+/**
+ * Represents a story submitted to the installation.
+ */
+interface Story {
+  content: Run[]
+  timestamp: number
+}
 
-// const addStory = (story: Story) => {
-//   beamStories[1].push(story)
-//   updateStoryDisplay()
-// }
+/**
+ * Stores the stories that have been fetched from the backend.
+ * 
+ * [0] is the first beam.
+ * [1] is the second beam.
+ * [2] is the third beam.
+ */
+const stories: Story[][] = [[], [], []]
 
-// const updateStoryDisplay = () => {
-//   const secondBeamElement = document.getElementById("second-beam")
-//   if (secondBeamElement) {
-//     secondBeamElement.innerHTML = ""
-//     const secondBeamStories = beamStories[1]
-//     for (let i = secondBeamStories.length - 1; i > 0; i--) {
-//       const story = secondBeamStories[i];
-//       secondBeamElement.innerHTML += JSON.stringify(story.text)
-//     }
-//   }
-// }
+/**
+ * The timestamp of the last fetch from the backend.
+ */
+let lastFetchTimestamp = 0
 
+/**
+ * Fetch the latest stories (since lastFetchTimestamp) from the backend, and append to `stories`.
+ */
+const fetchLatestStories = () => {
+  fetch(BASE_URL + "/stories?timestamp=" + lastFetchTimestamp, {
+    method: "GET",
+    headers: {
+      "X-INSTALLATION-KEY": INSTALLATION_KEY,
+    }
+  })
+    .then(response => response.json())
+    .then((newStories: Array<Story>) => {
+      newStories.forEach(s => addStory(s))
+    })
+    .catch(error => {
+      console.error("Failed to fetch new stories: " + error)
+    })
 
-// TODO: Fetch new stories on interval.
-// addStory({})
+  lastFetchTimestamp = Date.now()
+  console.log(stories)
+}
+
+// Fetch existing stories and then fetch new stories every two seconds
+fetchLatestStories()
+setInterval(() => fetchLatestStories(), 2 * 1000)
+
+/**
+ * The index of the last beam which had a story added to it. Used for roundrobin appending.
+ */
+let lastBeamIndex = 0
+
+/**
+ * Add a story the beams. The beams are selected roundrobin style (for now).
+ * @param story to add
+ */
+const addStory = (story: Story) => {
+  stories[lastBeamIndex].push(story)
+  lastBeamIndex = (lastBeamIndex + 1) % 3
+  updateStoryDisplay()
+}
+
+const updateStoryDisplay = () => {
+  const beamElements = [
+    document.getElementById("first-beam")!,
+    document.getElementById("second-beam")!,
+    document.getElementById("third-beam")!
+  ]
+
+  for (let beamIndex = 0; beamIndex < 3; beamIndex++) {
+    const beamElement = beamElements[beamIndex]
+    const beamStories = stories[beamIndex]
+
+    beamElement.innerHTML = ""
+
+    for (let storyIndex = 0; storyIndex < beamStories.length; storyIndex++) {
+      const story = beamStories[storyIndex];
+
+      const plainText = story.content.reduce((text, run) => text + run.text, "")
+
+      // Build formatted text spans inside an article container
+      const storyContainer = document.createElement("article")
+      const storyText = document.createElement("span")
+      storyText.innerText = plainText
+      storyContainer.appendChild(storyText)
+
+      // Append article container to the beam element
+      beamElement.appendChild(storyContainer)
+    }
+  }
+}

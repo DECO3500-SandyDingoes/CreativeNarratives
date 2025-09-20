@@ -2,7 +2,7 @@ export const BASE_URL = "https://under.place"
 
 export type Run = { text: string; fontFamily: string; color: string };
 
-export interface Message {
+export interface ClientStory {
   code: string,
   content: Run[],
 }
@@ -12,13 +12,13 @@ interface StoryPostResponseBody {
   timestamp: number
 }
 
-export const send = async (msg: Message): Promise<string> => {
+export const send = async (story: ClientStory): Promise<string> => {
   try {
     const res = await fetch(BASE_URL + "/stories", {
       method: "POST",
       body: JSON.stringify({
-        code: msg.code,
-        content: msg.content
+        code: story.code,
+        content: story.content
       })
     })
 

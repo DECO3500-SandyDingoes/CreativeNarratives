@@ -1,6 +1,17 @@
 import { BASE_URL, type Run } from "../../shared/shared"
 import './style.css'
 
+//// Simulator fullscreen toggle ////
+
+const simulatorElement = document.getElementById("simulator")!
+simulatorElement.addEventListener("click", () => {
+  if (document.fullscreenElement) {
+    document.exitFullscreen()
+  } else {
+    simulatorElement.requestFullscreen()
+  }
+})
+
 //// PIN Code Handling ////
 
 /**
@@ -95,7 +106,6 @@ const fetchLatestStories = () => {
     })
 
   lastFetchTimestamp = Date.now()
-  console.log(stories)
 }
 
 // Fetch existing stories and then fetch new stories every two seconds

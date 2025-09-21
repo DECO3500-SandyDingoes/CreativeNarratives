@@ -20,7 +20,7 @@
 }
 
 :root {
-  --text-outline: 0.05vw;
+  --text-outline: 0.04vw;
 }
 
 body {
@@ -129,6 +129,14 @@ body {
 .beam {
   display: flex;
   gap: 0.5vw;
+}
+
+.double-line {
+  font-size: 1vw;
+  /* width: 5em; */
+  max-width: 20vw;
+  text-wrap-mode: wrap;
+  line-height: 1vw;
 }
 
 .font-montserrat {

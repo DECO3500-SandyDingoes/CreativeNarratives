@@ -99,6 +99,7 @@ const fetchLatestStories = () => {
   })
     .then(response => response.json())
     .then((newStories: Array<Story>) => {
+      newStories.sort((a, b) => a.timestamp - b.timestamp)
       newStories.forEach(s => addStory(s))
     })
     .catch(error => {
@@ -122,11 +123,17 @@ let lastBeamIndex = 0
  * @param story to add
  */
 const addStory = (story: Story) => {
-  stories[lastBeamIndex].push(story)
+  // Prepend story to the front
+  stories[lastBeamIndex] = [story, ...stories[lastBeamIndex]]
+
+  // Increment index to next beam for the next story added.
   lastBeamIndex = (lastBeamIndex + 1) % 3
   updateStoryDisplay()
 }
 
+/**
+ * Render the styled text elements of the currently stored stories to the screen.
+ */
 const updateStoryDisplay = () => {
   const beamElements = [
     document.getElementById("first-beam")!,
@@ -146,10 +153,16 @@ const updateStoryDisplay = () => {
       // Keeping plain text version to be used for calculating layout
       // and filtering "bad" words. 
       //
-      // const plainText = story.content.reduce((text, run) => text + run.text, "")
+      const plainText = story.content.reduce((text, run) => text + run.text, "")
 
       // Build formatted text spans inside an article container
       const storyContainer = document.createElement("article")
+
+      // Make long text double lined
+      if (plainText.length > 10) {
+        storyContainer.classList.add("double-line")
+        // storyContainer.style.width = Math.ceil(plainText.length / 2 - 5) + "vw"
+      }
 
       for (const run of story.content) {
         const runText = document.createElement("span")
@@ -166,6 +179,12 @@ const updateStoryDisplay = () => {
   }
 }
 
+/**
+ * Map the font names used on the editor app to the font classes used by the installation. 
+ * 
+ * @param name editor app font name
+ * @returns css class name for corresponding font
+ */
 const mapFont = (name: string): string => {
   switch (name) {
     case "Montserrat":
@@ -178,6 +197,12 @@ const mapFont = (name: string): string => {
   }
 }
 
+/**
+ * Map the colours used on the editor app to the colour classes used by the installation. 
+ * 
+ * @param name editor app colour value
+ * @returns css class name for corresponding colour
+ */
 const mapColour = (name: string): string => {
   switch (name) {
     case "#FF3B30":

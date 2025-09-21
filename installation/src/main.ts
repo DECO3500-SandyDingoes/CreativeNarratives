@@ -145,6 +145,7 @@ const updateStoryDisplay = () => {
         const runText = document.createElement("span")
         runText.innerText = run.text
         runText.classList.add(mapFont(run.fontFamily))
+        runText.classList.add(mapColour(run.color))
         storyContainer.appendChild(runText)
       }
 
@@ -167,4 +168,20 @@ const mapFont = (name: string): string => {
   }
 }
 
-// TODO: Create mapColour function
+const mapColour = (name: string): string => {
+  switch (name) {
+    case "#FF3B30":
+      return "colour-red"
+    case "#007AFF":
+      return "colour-blue"
+    case "#AF52DE":
+      return "colour-purple"
+    case "#FF9500":
+      return "colour-orange"
+    case "#FFD60A":
+      return "colour-yellow"
+    case "#34C759":
+    default:
+      return "colour-green"
+  }
+}

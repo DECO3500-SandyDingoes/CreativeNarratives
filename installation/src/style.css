@@ -19,6 +19,10 @@
   font-style: normal;
 }
 
+:root {
+  --text-outline: 0.05vw;
+}
+
 body {
   margin: 0;
 }
@@ -29,6 +33,10 @@ body {
 
 #simulator>* {
   width: 100%;
+}
+
+#simulator>video {
+  filter: brightness(75%);
 }
 
 .z-stack>* {
@@ -42,9 +50,10 @@ body {
   overflow: hidden;
   text-wrap-mode: nowrap;
   color: transparent;
-  -webkit-text-stroke: 0.03vw rgb(182, 255, 23);
+  filter: brightness(200%);
+  -webkit-text-stroke: var(--text-outline) rgb(182, 255, 23);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   /* opacity: 0.4; */
   animation: flicker 1s linear infinite;
 }
@@ -110,6 +119,7 @@ body {
   display: grid;
   grid-template-columns: min-content 1fr;
   column-gap: 0.4vw;
+  align-self: center;
 }
 
 .flex-grow {
@@ -131,4 +141,29 @@ body {
 
 .font-graffiti-youth {
   font-family: "Graffiti Youth";
+}
+
+.colour-red {
+  -webkit-text-stroke: var(--text-outline) #FF0000;
+}
+
+.colour-blue {
+  -webkit-text-stroke: var(--text-outline) #0000FF;
+}
+
+.colour-green {
+  -webkit-text-stroke: var(--text-outline) #059A3C;
+  ;
+}
+
+.colour-purple {
+  -webkit-text-stroke: var(--text-outline) #9A0568;
+}
+
+.colour-orange {
+  -webkit-text-stroke: var(--text-outline) #FF9E00;
+}
+
+.colour-yellow {
+  -webkit-text-stroke: var(--text-outline) #FFEE06;
 }

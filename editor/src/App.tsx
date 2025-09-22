@@ -1,5 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { send, type Run } from "../../shared/shared"
+import PinModal from "./Pin";
 
 /** Per-character editor — SAME implementation, new layout
  * Top-right "Done", centered edit area, color row, font row + shuffle
@@ -12,7 +13,9 @@ const FONTS = ["Bebas Neue", "Montserrat", "Graffiti Youth", "Redoura", "Super W
 
 // iOS-like palette from your screenshot
 const PALETTE = ["#FF3B30", "#007AFF", "#34C759", "#AF52DE", "#FF9500", "#FFD60A"];
-const DEFAULT_COLOR = "#111827";
+const DEFAULT_COLOR = "#FF3B30";
+const FOOTER_H = 92; // approximate height of your toolbar (tweak if needed)
+
 
 /* ---------------- run helpers (unchanged) ---------------- */
 const cloneRuns = (runs: Run[]) => runs.map((r) => ({ ...r }));
@@ -66,27 +69,51 @@ const getTextInRange = (runs: Run[], start: number, end: number) => {
   return B.map((r) => r.text).join("");
 };
 
-/* ---------------- selection helpers (unchanged) ---------------- */
+/* ---------------- selection helpers ---------------- */
 function getSelectionOffsets(root: HTMLElement): { start: number; end: number } {
   const sel = window.getSelection();
   if (!sel || sel.rangeCount === 0) return { start: 0, end: 0 };
   const range = sel.getRangeAt(0);
+  const runEls = Array.from(root.querySelectorAll<HTMLElement>("[data-run]"));
 
-  const toOffset = (node: Node, nodeOffset: number) => {
-    let n: Node | null = node;
-    while (n && n !== root && !(n.nodeType === 1 && (n as HTMLElement).hasAttribute("data-run"))) {
-      n = (n as HTMLElement).parentNode;
+  // total number of characters in runs before index `i`
+  const textLenBeforeRun = (i: number) =>
+    runEls.slice(0, i).reduce((sum, el) => sum + (el.textContent ? el.textContent.length : 0), 0);
+
+  // convert a DOM container + offset to a single absolute character index
+  function toAbsolute(container: Node, offset: number): number {
+    // Walk up to the nearest run element
+    let el: HTMLElement | null =
+      container.nodeType === Node.TEXT_NODE ? (container.parentElement as HTMLElement) : (container as HTMLElement);
+
+    while (el && el !== root && !el.hasAttribute("data-run")) {
+      el = el.parentElement as HTMLElement | null;
     }
-    if (!n || n === root) return 0;
-    const idx = parseInt((n as HTMLElement).getAttribute("data-run") || "0", 10) || 0;
-    let sum = 0;
-    const spans = root.querySelectorAll<HTMLElement>("[data-run]");
-    for (let i = 0; i < spans.length && i < idx; i++) sum += (spans[i].textContent || "").length;
-    return sum + nodeOffset;
-  };
 
-  const start = toOffset(range.startContainer, range.startOffset);
-  const end = toOffset(range.endContainer, range.endOffset);
+    //  caret inside the run
+    if (el && el !== root && el.hasAttribute("data-run")) {
+      const idx = Number(el.getAttribute("data-run") || 0);
+      const rel =
+        container.nodeType === Node.TEXT_NODE
+          ? offset
+          : Math.min(offset, (el.textContent ? el.textContent.length : 0));
+      return textLenBeforeRun(idx) + rel;
+    }
+
+    // caret is between runs
+    let sum = 0;
+    const childIndex = Math.max(0, Math.min(offset, root.childNodes.length));
+    for (let i = 0; i < childIndex; i++) {
+      const n = root.childNodes[i] as HTMLElement;
+      if (n.nodeType === Node.ELEMENT_NODE && (n as HTMLElement).hasAttribute("data-run")) {
+        sum += n.textContent ? n.textContent.length : 0;
+      }
+    }
+    return sum;
+  }
+
+  const start = toAbsolute(range.startContainer, range.startOffset);
+  const end = toAbsolute(range.endContainer, range.endOffset);
   return { start: Math.min(start, end), end: Math.max(start, end) };
 }
 function setCaret(root: HTMLElement, _runs: Run[], offset: number) {
@@ -149,6 +176,8 @@ export default function App() {
   ]);
   const [currentFont, setCurrentFont] = useState<string>(FONTS[0]);
   const [currentColor, setCurrentColor] = useState<string>(DEFAULT_COLOR);
+  const [pinOpen, setPinOpen] = useState(false);
+
 
   const editorRef = useRef<HTMLDivElement | null>(null);
   const pendingCaret = useRef<number | null>(null);
@@ -170,6 +199,15 @@ export default function App() {
     setRuns(next);
     pendingCaret.current = caret;
   };
+  const onPaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+  e.preventDefault(); // stop the browser from mutating the DOM
+  const txt = e.clipboardData.getData("text/plain").replace(/\r?\n/g, " ");
+  const root = editorRef.current!;
+  const { next, caret } = applyEdit("insertFromPaste", txt, runs, currentFont, currentColor, root);
+  setRuns(next);
+  pendingCaret.current = caret; // restore caret after we re-render
+};
+
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const root = editorRef.current!;
     if (!root) return;
@@ -241,25 +279,28 @@ export default function App() {
     }
   });
 
-  const sendRuns = useCallback(() => {
-    const code = prompt("Enter the code:")
-
-    if (code) {
-      send({
-        content: runs,
-        code,
-      })
-        .then(statusMessage => alert("Success: " + statusMessage))
-        .catch(error => alert("Error: " + error))
-    }
-  }, [runs])
 
   const handleDone = () => {
-    sendRuns()
+    setPinOpen(true);
   }
 
+  const onVerifiedPin = useCallback(async (pin: string) => {
+  if (!/^\d{4}$/.test(pin)) throw new Error("Wrong PIN, try again");
+
+  try {
+    const statusMessage = await send({ content: runs, code: pin });
+    alert("Success: " + statusMessage);
+    setPinOpen(false);               
+  } catch (err) {
+    // throws it again to show the error
+    throw new Error(String(err));
+  }
+}, [runs]);
+
+
+
   return (
-    <div style={{ minHeight: "100vh", background: "#fff", display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100dvh", background: "#fff", display: "flex", flexDirection: "column", paddingBottom: FOOTER_H + 8 }}>
       {/* Top bar with pill button on the right */}
       <div style={{ position: "sticky", top: 0, background: "#fff", padding: "8px 12px", zIndex: 10 }}>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -293,6 +334,7 @@ export default function App() {
             spellCheck={false}
             onBeforeInput={onBeforeInput}
             onKeyDown={onKeyDown}
+            onPaste={onPaste} 
             style={{
               marginTop: 16,
               minHeight: "40vh",
@@ -304,6 +346,9 @@ export default function App() {
               lineHeight: 1.2,
               textAlign: "center",   // <-- centered like your mock
               wordBreak: "break-word",
+              whiteSpace: "pre-wrap",
+              overflowWrap: "anywhere",
+              overflowY: "auto",
             }}
           >
             {runs.map((r, i) => (
@@ -318,11 +363,15 @@ export default function App() {
       {/* Bottom controls pinned above keyboard */}
       <div
         style={{
-          position: "sticky",
-          bottom: 0,
+          position: "fixed",
+          left: 0,
+          right:0,
+          bottom: "env(safe-area-inset-bottom)",
           background: "#fff",
           borderTop: "1px solid #E5E7EB",
           padding: "8px 12px",
+          height: FOOTER_H,
+          zIndex: 50
         }}
       >
         <div style={{ width: "min(680px, 92vw)", margin: "0 auto", display: "grid", gap: 10 }}>
@@ -385,6 +434,13 @@ export default function App() {
           </div>
         </div>
       </div>
+    {/* Enter PIN  */}
+      <PinModal
+        open={pinOpen}
+        onClose={() => setPinOpen(false)}
+        onVerified={onVerifiedPin}
+        title="Enter pin from the projecton"
+      />
     </div>
   );
 }

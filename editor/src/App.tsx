@@ -200,13 +200,13 @@ export default function App() {
     pendingCaret.current = caret;
   };
   const onPaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
-  e.preventDefault(); // stop the browser from mutating the DOM
-  const txt = e.clipboardData.getData("text/plain").replace(/\r?\n/g, " ");
-  const root = editorRef.current!;
-  const { next, caret } = applyEdit("insertFromPaste", txt, runs, currentFont, currentColor, root);
-  setRuns(next);
-  pendingCaret.current = caret; // restore caret after we re-render
-};
+    e.preventDefault(); // stop the browser from mutating the DOM
+    const txt = e.clipboardData.getData("text/plain").replace(/\r?\n/g, " ");
+    const root = editorRef.current!;
+    const { next, caret } = applyEdit("insertFromPaste", txt, runs, currentFont, currentColor, root);
+    setRuns(next);
+    pendingCaret.current = caret; // restore caret after we re-render
+  };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const root = editorRef.current!;
@@ -285,17 +285,17 @@ export default function App() {
   }
 
   const onVerifiedPin = useCallback(async (pin: string) => {
-  if (!/^\d{4}$/.test(pin)) throw new Error("Wrong PIN, try again");
+    if (!/^\d{4}$/.test(pin)) throw new Error("Wrong PIN, try again");
 
-  try {
-    const statusMessage = await send({ content: runs, code: pin });
-    alert("Success: " + statusMessage);
-    setPinOpen(false);               
-  } catch (err) {
-    // throws it again to show the error
-    throw new Error(String(err));
-  }
-}, [runs]);
+    try {
+      const statusMessage = await send({ content: runs, code: pin });
+      alert("Success: " + statusMessage);
+      setPinOpen(false);
+    } catch (err) {
+      // throws it again to show the error
+      throw new Error(String(err));
+    }
+  }, [runs]);
 
 
 
@@ -334,7 +334,7 @@ export default function App() {
             spellCheck={false}
             onBeforeInput={onBeforeInput}
             onKeyDown={onKeyDown}
-            onPaste={onPaste} 
+            onPaste={onPaste}
             style={{
               marginTop: 16,
               minHeight: "40vh",
@@ -365,8 +365,9 @@ export default function App() {
         style={{
           position: "fixed",
           left: 0,
-          right:0,
-          bottom: "env(safe-area-inset-bottom)",
+          right: 0,
+          // bottom: "env(safe-area-inset-bottom)",
+          bottom: "50%",
           background: "#fff",
           borderTop: "1px solid #E5E7EB",
           padding: "8px 12px",
@@ -434,7 +435,7 @@ export default function App() {
           </div>
         </div>
       </div>
-    {/* Enter PIN  */}
+      {/* Enter PIN  */}
       <PinModal
         open={pinOpen}
         onClose={() => setPinOpen(false)}

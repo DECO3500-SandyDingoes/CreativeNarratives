@@ -161,6 +161,7 @@ const updateStoryDisplay = () => {
       // Make long text double lined
       if (plainText.length > 20) {
         storyContainer.classList.add("double-line")
+        storyContainer.style.width = plainText.length / 3 + "vw"
       }
 
       for (const run of story.content) {

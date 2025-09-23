@@ -19,6 +19,20 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "BebasNeue";
+  src: url("/fonts/BebasNeue-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Redoura Serif";
+  src: url("/fonts/Redoura Serif.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
 :root {
   --text-outline: 0.02vw;
 }
@@ -155,6 +169,14 @@ body {
 
 .font-graffiti-youth {
   font-family: "Graffiti Youth";
+}
+
+.font-bebas-neue {
+  font-family: "BebasNeue";
+}
+
+.font-redoura-serif {
+  font-family: "Redoura Serif";
 }
 
 .colour-red {

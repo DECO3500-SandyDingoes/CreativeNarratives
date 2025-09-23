@@ -190,6 +190,10 @@ const mapFont = (name: string): string => {
       return "font-montserrat"
     case "Super Woobly":
       return "font-super-woobly"
+    case "Bebas Neue":
+      return "font-bebas-neue"
+    case "Redoura":
+      return "font-redoura-serif"
     case "Graffiti Youth":
     default:
       return "font-graffiti-youth"

@@ -30,7 +30,7 @@ export default function PinModal({ open, onClose, onVerified, title }: Props) {
   const setDigit = (index: number, raw: string) => {
     if (err) setErr("");
     const clean = raw.replace(/\D/g, "");
-    
+
     if (clean.length > 1) {
       setPins(prev => {
         const next = [...prev];
@@ -64,8 +64,8 @@ export default function PinModal({ open, onClose, onVerified, title }: Props) {
     if (pin.length !== 4) return;
     try {
       await onVerified(pin);
-    } catch {
-      setErr("Wrong Pin, Try again");
+    } catch (error) {
+      setErr(String(error));
     }
   };
 

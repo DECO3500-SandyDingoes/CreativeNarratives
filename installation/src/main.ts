@@ -1,5 +1,5 @@
 import { BASE_URL, type Run } from "../../shared/shared"
-import './style.css'
+import "./text-styles.css"
 
 //// Simulator fullscreen toggle ////
 

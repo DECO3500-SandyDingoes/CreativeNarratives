@@ -78,6 +78,8 @@ body {
   font-family: "BebasNeue";
   font-size: 5vw;
   display: flex;
+  justify-content: center;
+  gap: 1rem;
   height: min-content;
   text-decoration: underline;
   text-underline-offset: 0.5vw;

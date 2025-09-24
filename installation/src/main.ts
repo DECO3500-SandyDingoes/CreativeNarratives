@@ -17,7 +17,7 @@ simulatorElement.addEventListener("click", () => {
 /**
  * The key used to authenticate the installation with the backend service.
  */
-const INSTALLATION_KEY = "c757ae22-2be3-461c-9ab4-53da3ea87a29"
+const INSTALLATION_KEY = import.meta.env.INSTALLATION_KEY
 
 /**
  * Generate a new random 4 digit code.

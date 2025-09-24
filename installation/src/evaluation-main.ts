@@ -97,7 +97,9 @@ const fetchLatestStories = () => {
     .then((newStories: Array<Story>) => {
       newStories.sort((a, b) => a.timestamp - b.timestamp)
       newStories.forEach(s => addStory(s))
-      newestTimestamp = newStories[newStories.length - 1].timestamp + 1
+      if (newStories.length > 0) {
+        newestTimestamp = newStories[newStories.length - 1].timestamp + 1
+      }
     })
     .catch(error => {
       console.error("Failed to fetch new stories: " + error)

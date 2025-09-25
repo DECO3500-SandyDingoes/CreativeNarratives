@@ -1,7 +1,7 @@
 /* Graffiti Youth (OTF) */
 @font-face {
   font-family: "Graffiti Youth";
-  src: url("/fonts/graffiti_youth/GraffitiYouth-Regular.otf") format("opentype");
+  src: url("/fonts/GraffitiYouth-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -10,7 +10,7 @@
 /* Redoura (TTF) — note the space in the filename */
 @font-face {
   font-family: "Redoura";
-  src: url("/fonts/redoura/Redoura DEMO.ttf") format("truetype");
+  src: url("/fonts/Redoura Serif.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -19,8 +19,22 @@
 /* Super Woobly (TTF) — note the space in the filename */
 @font-face {
   font-family: "Super Woobly";
-  src: url("/fonts/super_woobly/Super Woobly.ttf") format("truetype");
+  src: url("/fonts/Super Woobly.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-Medium.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BebasNeue";
+  src: url("/fonts/BebasNeue-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
 }

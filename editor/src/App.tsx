@@ -290,14 +290,7 @@ function useMobileDetection() {
         const heightDifference = initialViewportHeight - currentHeight;
         const isOpen = heightDifference > 100; // Lowered threshold for better detection
         
-        console.log('Window Resize:', {
-          initialHeight: initialViewportHeight,
-          currentHeight,
-          heightDifference,
-          isOpen,
-          windowInnerHeight: window.innerHeight,
-          visualViewportAvailable: !!window.visualViewport
-        });
+        // Window resize detected - keyboard state updated
         
         setIsKeyboardOpen(isOpen);
         setKeyboardHeight(isOpen ? heightDifference : 0);
@@ -310,13 +303,7 @@ function useMobileDetection() {
         const heightDifference = initialViewportHeight - currentHeight;
         const isOpen = heightDifference > 100;
         
-        console.log('Visual Viewport Change:', {
-          initialHeight: initialViewportHeight,
-          currentHeight,
-          heightDifference,
-          isOpen,
-          windowInnerHeight: window.innerHeight
-        });
+        // Visual viewport changed - keyboard state updated
         
         setIsKeyboardOpen(isOpen);
         setKeyboardHeight(isOpen ? heightDifference : 0);
@@ -329,16 +316,16 @@ function useMobileDetection() {
     // Try multiple detection methods
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', handleVisualViewportChange);
-      console.log('Using Visual Viewport API for keyboard detection');
+      // Using Visual Viewport API for keyboard detection
     } else {
       window.addEventListener('resize', handleResize);
-      console.log('Using Window Resize API for keyboard detection');
+      // Using Window Resize API for keyboard detection
     }
 
     // Additional fallback: Listen for input focus/blur events
     const handleInputFocus = () => {
       if (isMobile) {
-        console.log('Input focused - keyboard likely open');
+        // Input focused - keyboard likely open
         // Small delay to let keyboard animate in
         setTimeout(() => {
           const currentHeight = window.visualViewport?.height || window.innerHeight;
@@ -353,7 +340,7 @@ function useMobileDetection() {
 
     const handleInputBlur = () => {
       if (isMobile) {
-        console.log('Input blurred - keyboard likely closed');
+        // Input blurred - keyboard likely closed
         setIsKeyboardOpen(false);
         setKeyboardHeight(0);
       }
@@ -369,7 +356,7 @@ function useMobileDetection() {
     // Additional fallback: orientation change detection
     const handleOrientationChange = () => {
       if (isMobile) {
-        console.log('Orientation changed');
+        // Orientation changed - resetting initial height
         // Reset initial height on orientation change
         setTimeout(() => {
           const newInitialHeight = window.visualViewport?.height || window.innerHeight;
@@ -389,7 +376,7 @@ function useMobileDetection() {
         const isOpen = heightDifference > 100;
         
         if (isOpen !== isKeyboardOpen) {
-          console.log('Keyboard state changed via polling:', { isOpen, heightDifference });
+          // Keyboard state changed via polling
           setIsKeyboardOpen(isOpen);
           setKeyboardHeight(isOpen ? heightDifference : 0);
         }
@@ -572,7 +559,7 @@ export default function App() {
 
   // Custom hooks
   const fontLoadStatus = useFontLoading();
-  const { isMobile, isKeyboardOpen, keyboardHeight, initialViewportHeight } = useMobileDetection();
+  const { isMobile, isKeyboardOpen, keyboardHeight } = useMobileDetection();
 
   //checks and handles what action is being done by the user
   const onBeforeInput = (e: React.FormEvent<HTMLDivElement>) => {
@@ -712,14 +699,7 @@ export default function App() {
     ? `${keyboardHeight}px` 
     : "0px";
 
-  // Debug info for mobile
-  const debugInfo = isMobile ? {
-    isKeyboardOpen,
-    keyboardHeight,
-    bottomControlsPosition,
-    initialViewportHeight: initialViewportHeight,
-    currentViewportHeight: window.visualViewport?.height || window.innerHeight
-  } : null;
+  // Debug info removed - keeping functionality intact
 
   return (
     <div style={{ 
@@ -735,16 +715,7 @@ export default function App() {
     }}>
       {/* Top bar */}
       <div style={{ position: "sticky", top: 0, background: "#fff", padding: "8px 12px", zIndex: 10 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          {/* Debug info for mobile */}
-          {debugInfo && (
-            <div style={{ fontSize: "10px", color: "#666", maxWidth: "200px" }}>
-              <div>Keyboard: {debugInfo.isKeyboardOpen ? "OPEN" : "CLOSED"}</div>
-              <div>Height: {debugInfo.keyboardHeight}px</div>
-              <div>Bottom: {debugInfo.bottomControlsPosition}</div>
-            </div>
-          )}
-          
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <TouchButton
             onClick={handleDone}
             isMobile={isMobile}

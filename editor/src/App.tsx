@@ -262,11 +262,13 @@ function useFontLoading() {
 function useMobileDetection() {
   const [isMobile, setIsMobile] = useState(false);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [initialViewportHeight, setInitialViewportHeight] = useState(0);
 
   useEffect(() => {
     const checkMobile = () => {
       const isMobileDevice = window.innerWidth <= 768 || 
-        /Android|iPhone/i.test(navigator.userAgent);
+        /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       setIsMobile(isMobileDevice);
       
       if (isMobileDevice) {
@@ -275,15 +277,32 @@ function useMobileDetection() {
           viewport.setAttribute('content', 
             'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
         }
+        
+        // Store initial viewport height
+        const initialHeight = window.visualViewport?.height || window.innerHeight;
+        setInitialViewportHeight(initialHeight);
       }
     };
     
     const handleResize = () => {
       if (isMobile) {
-        const initialViewportHeight = window.visualViewport?.height || window.innerHeight;
         const currentHeight = window.visualViewport?.height || window.innerHeight;
         const heightDifference = initialViewportHeight - currentHeight;
-        setIsKeyboardOpen(heightDifference > 150);
+        const isOpen = heightDifference > 100; // Lowered threshold for better detection
+        
+        setIsKeyboardOpen(isOpen);
+        setKeyboardHeight(isOpen ? heightDifference : 0);
+      }
+    };
+
+    const handleVisualViewportChange = () => {
+      if (isMobile && window.visualViewport) {
+        const currentHeight = window.visualViewport.height;
+        const heightDifference = initialViewportHeight - currentHeight;
+        const isOpen = heightDifference > 100;
+        
+        setIsKeyboardOpen(isOpen);
+        setKeyboardHeight(isOpen ? heightDifference : 0);
       }
     };
 
@@ -291,7 +310,7 @@ function useMobileDetection() {
     window.addEventListener('resize', checkMobile);
 
     if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', handleResize);
+      window.visualViewport.addEventListener('resize', handleVisualViewportChange);
     } else {
       window.addEventListener('resize', handleResize);
     }
@@ -299,14 +318,14 @@ function useMobileDetection() {
     return () => {
       window.removeEventListener('resize', checkMobile);
       if (window.visualViewport) {
-        window.visualViewport.removeEventListener('resize', handleResize);
+        window.visualViewport.removeEventListener('resize', handleVisualViewportChange);
       } else {
         window.removeEventListener('resize', handleResize);
       }
     };
-  }, [isMobile]);
+  }, [isMobile, initialViewportHeight]);
 
-  return { isMobile, isKeyboardOpen };
+  return { isMobile, isKeyboardOpen, keyboardHeight };
 }
 
 const createTouchHandlers = (isMobile: boolean) => ({
@@ -458,7 +477,7 @@ export default function App() {
 
   // Custom hooks
   const fontLoadStatus = useFontLoading();
-  const { isMobile, isKeyboardOpen } = useMobileDetection();
+  const { isMobile, isKeyboardOpen, keyboardHeight } = useMobileDetection();
 
   //checks and handles what action is being done by the user
   const onBeforeInput = (e: React.FormEvent<HTMLDivElement>) => {
@@ -519,23 +538,35 @@ export default function App() {
   const applyFontToSelection = (font: string) => {
     editorRef.current?.focus();
     setCurrentFont(font);
+    
+    // Always update the current font state for future typing
     const root = editorRef.current!;
     const { start, end } = getSelectionOffsets(root);
-    if (start === end) return;
+    
+    // If text is selected, apply font to the selection
+    if (start !== end) {
     const text = getTextInRange(runs, start, end);
     const next = replaceRange(runs, start, end, text, { fontFamily: font, color: currentColor });
     setRuns(next);
+    }
+    // If no text is selected, the font is set for future typing via setCurrentFont
   };
 
   const applyColorToSelection = (color: string) => {
     editorRef.current?.focus();
     setCurrentColor(color);
+    
+    // Always update the current color state for future typing
     const root = editorRef.current!;
     const { start, end } = getSelectionOffsets(root);
-    if (start === end) return;
+    
+    // If text is selected, apply color to the selection
+    if (start !== end) {
     const text = getTextInRange(runs, start, end);
     const next = replaceRange(runs, start, end, text, { fontFamily: currentFont, color });
     setRuns(next);
+    }
+    // If no text is selected, the color is set for future typing via setCurrentColor
   };
 
   const shuffleSelection = () => {
@@ -580,6 +611,11 @@ export default function App() {
   //computed mobile values
   const footerHeight = isMobile ? MOBILE_FOOTER_H : FOOTER_H;
   const bottomPadding = isMobile && isKeyboardOpen ? 0 : footerHeight + 8;
+  
+  // Dynamic bottom position based on keyboard height
+  const bottomControlsPosition = isMobile && isKeyboardOpen 
+    ? `${keyboardHeight}px` 
+    : "0px";
 
   return (
     <div style={{ 
@@ -651,7 +687,9 @@ export default function App() {
             }}
             style={{
               marginTop: 16,
-              minHeight: isMobile ? "30vh" : "40vh",
+              minHeight: isMobile 
+                ? (isKeyboardOpen ? "20vh" : "30vh") 
+                : "40vh",
               padding: isMobile ? 16 : 12,
               border: "1px solid #EEF2F7",
               borderRadius: isMobile ? 20 : 16,
@@ -665,7 +703,8 @@ export default function App() {
               overflowY: "auto",
               touchAction: "manipulation",
               WebkitUserSelect: "text",
-              userSelect: "text"
+              userSelect: "text",
+              transition: "min-height 0.3s ease-in-out" // Smooth height transition
             }}
           >
             {runs.length === 0 ? (
@@ -696,13 +735,14 @@ export default function App() {
           position: "fixed",
           left: 0,
           right: 0,
-          bottom: isMobile && isKeyboardOpen ? "env(keyboard-inset-height, 0px)" : "0px",
+          bottom: bottomControlsPosition,
           background: "#fff",
           borderTop: "1px solid #E5E7EB",
           padding: isMobile ? "12px 16px" : "8px 12px",
           height: footerHeight,
           zIndex: 50,
-          boxShadow: isMobile ? "0 -2px 10px rgba(0,0,0,0.1)" : "none"
+          boxShadow: isMobile ? "0 -2px 10px rgba(0,0,0,0.1)" : "none",
+          transition: "bottom 0.3s ease-in-out" // Smooth animation when keyboard opens/closes
         }}
       >
         <div style={{ width: "min(680px, 92vw)", margin: "0 auto", display: "grid", gap: isMobile ? 12 : 10 }}>

@@ -1,5 +1,9 @@
 # Creative Narratives
 
+**Creative Narratives** aims to investigate collaborative public art installations as a medium for supporting community narrative and awareness. We focus on designing a location specific experience to facilitate sharing of local stories and happenings. 
+
+This repository contains the components of a functional evaluation prototype that can be either physicallay deployed at a location or demonstarted using a simulated environment.
+
 ## Documentation
 
 Please visit the wiki pages for the [design process overview](https://github.com/DECO3500-SandyDingoes/CreativeNarratives/wiki/Design-Process-Overview), [technical specification](https://github.com/DECO3500-SandyDingoes/CreativeNarratives/wiki/Technical-Specification), [ethical considerations](https://github.com/DECO3500-SandyDingoes/CreativeNarratives/wiki/Ethical-Considerations), and [ongoing design documentation](https://github.com/DECO3500-SandyDingoes/CreativeNarratives/wiki/Ongoing-Design-Documentation).

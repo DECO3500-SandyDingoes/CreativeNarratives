@@ -85,13 +85,13 @@ const stories: Story[][] = [[], [], []]
 /**
  * The timestamp of the last fetch from the backend.
  */
-let lastFetchTimestamp = 0
+let newestTimestamp = 0
 
 /**
  * Fetch the latest stories (since lastFetchTimestamp) from the backend, and append to `stories`.
  */
 const fetchLatestStories = () => {
-  fetch(BASE_URL + "/stories?timestamp=" + lastFetchTimestamp, {
+  fetch(BASE_URL + "/stories?timestamp=" + newestTimestamp, {
     method: "GET",
     headers: {
       "X-INSTALLATION-KEY": INSTALLATION_KEY,
@@ -101,12 +101,13 @@ const fetchLatestStories = () => {
     .then((newStories: Array<Story>) => {
       newStories.sort((a, b) => a.timestamp - b.timestamp)
       newStories.forEach(s => addStory(s))
+      if (newStories.length > 0) {
+        newestTimestamp = newStories[newStories.length - 1].timestamp + 1
+      }
     })
     .catch(error => {
       console.error("Failed to fetch new stories: " + error)
     })
-
-  lastFetchTimestamp = Date.now()
 }
 
 // Fetch existing stories and then fetch new stories every two seconds

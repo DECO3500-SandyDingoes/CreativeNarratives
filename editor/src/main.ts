@@ -102,11 +102,30 @@ const fontClassOptions = [
   "font-redoura-serif"
 ]
 
+const handleToolbarSelectColour = (selectedColourClass: string) => {
+  // TODO: Set colour of any newly entered text
+}
+
+
+const handleToolbarSelectFont = (selectedFontClass: string) => {
+  // Update keyboard font
+  const keyboard = document.getElementById("keyboard")!
+  keyboard.classList.add(selectedFontClass)
+  for (const fontClass of fontClassOptions) {
+    if (fontClass != selectedFontClass) {
+      keyboard.classList.remove(fontClass)
+    }
+  }
+
+  // TODO: Set font of any newly enter text
+}
+
 const renderToolbar = () => {
   const toolbar = document.getElementById("toolbar")!
 
   for (const colourClass of colourClassOptions) {
     const colourOption = document.createElement("div")
+    colourOption.onclick = () => handleToolbarSelectColour(colourClass)
     colourOption.classList.add(colourClass, "colour-option")
     toolbar.appendChild(colourOption)
   }
@@ -114,6 +133,7 @@ const renderToolbar = () => {
   for (const fontClass of fontClassOptions) {
     const fontOption = document.createElement("span")
     fontOption.innerText = "Aa"
+    fontOption.onclick = () => handleToolbarSelectFont(fontClass)
     fontOption.classList.add(fontClass, "font-option")
     toolbar.appendChild(fontOption)
   }

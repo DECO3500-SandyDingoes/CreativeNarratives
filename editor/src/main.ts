@@ -33,7 +33,6 @@ const handleKeyboardPress = (key: string) => {
   switch (key) {
     case "delete":
     case "break":
-    case "space":
       break;
     case "ABC":
     case "Aa":
@@ -48,8 +47,29 @@ const handleKeyboardPress = (key: string) => {
     case "=\\<":
       renderKeyboard(numericSymbolExtraLayout)
       break;
-    default:
+    case "space":
+      appendChar(" ")
       break;
+    default:
+      appendChar(key)
+      break;
+  }
+}
+
+const appendChar = (char: string) => {
+  const newCharacter = document.createElement("span")
+  newCharacter.classList.add("char", "cursor")
+  newCharacter.innerText = char
+
+  const textBuffer = document.getElementById("text-buffer")!
+  const characters = textBuffer.getElementsByClassName("char")
+
+  for (const character of characters) {
+    if (character.classList.contains("cursor")) {
+      character.classList.remove("cursor")
+      character.insertAdjacentElement("afterend", newCharacter)
+      break
+    }
   }
 }
 

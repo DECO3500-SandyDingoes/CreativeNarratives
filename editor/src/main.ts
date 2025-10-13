@@ -1,3 +1,4 @@
+import './text-styles.css'
 import './style.css'
 
 const alphaLayout = [
@@ -83,3 +84,44 @@ const renderKeyboard = (layout: string[][]) => {
 }
 
 renderKeyboard(alphaLayout)
+
+const colourClassOptions = [
+  "colour-red",
+  "colour-blue",
+  "colour-green",
+  "colour-purple",
+  "colour-orange",
+  "colour-yellow"
+]
+
+const fontClassOptions = [
+  "font-montserrat",
+  "font-super-woobly",
+  "font-graffiti-youth",
+  "font-bebas-neue",
+  "font-redoura-serif"
+]
+
+const renderToolbar = () => {
+  const toolbar = document.getElementById("toolbar")!
+
+  for (const colourClass of colourClassOptions) {
+    const colourOption = document.createElement("div")
+    colourOption.classList.add(colourClass, "colour-option")
+    toolbar.appendChild(colourOption)
+  }
+
+  for (const fontClass of fontClassOptions) {
+    const fontOption = document.createElement("span")
+    fontOption.innerText = "Aa"
+    fontOption.classList.add(fontClass, "font-option")
+    toolbar.appendChild(fontOption)
+  }
+
+  const randomOption = document.createElement("span")
+  randomOption.innerText = "🔀"
+  randomOption.classList.add("font-option")
+  toolbar.appendChild(randomOption)
+}
+
+renderToolbar()

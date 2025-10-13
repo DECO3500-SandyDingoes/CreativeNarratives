@@ -1,27 +1,44 @@
 body {
   margin: 0;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 main {
   height: 100vh;
   width: 100vw;
   display: grid;
-  grid-template-rows: 1fr 100px 40vh;
+  grid-template-rows: 1fr 15vh 40vh;
 }
 
 #editor {}
 
-#tool-bar {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+#toolbar {
   margin: 5px 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: 5px;
+  justify-items: center;
+  align-items: center;
+}
+
+.colour-option {
+  background-color: var(--text-colour);
+  border-radius: 5px;
+  aspect-ratio: 1;
+  height: 100%;
+}
+
+.font-option {
+  aspect-ratio: 1;
+  font-size: 200%;
 }
 
 #keyboard {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  /* height: 35vh; */
   width: 100%;
   padding-bottom: 60px;
 }

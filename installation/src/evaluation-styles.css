@@ -39,6 +39,13 @@ body {
   box-sizing: border-box;
 }
 
+.beam {
+  font-family: "Graffiti Youth";
+  overflow: hidden;
+  color: transparent;
+  -webkit-text-stroke: var(--text-outline) rgb(182, 255, 23);
+}
+
 @keyframes flicker {
 
   0%,
@@ -78,12 +85,19 @@ body {
   font-family: "BebasNeue";
   font-size: 5vw;
   display: flex;
+  background: repeating-linear-gradient(45deg,
+      transparent,
+      transparent 0.2vw,
+      rgb(182, 255, 23) 0.2vw,
+      rgb(182, 255, 23) 0.25vw);
+  background-clip: text;
   justify-content: center;
   gap: 1rem;
   height: min-content;
-  text-decoration: underline;
+  /* text-decoration: underline;
   text-underline-offset: 0.5vw;
-  text-decoration-thickness: calc(var(--text-outline) * 1.5);
+  text-decoration-thickness: calc(var(--text-outline) * 1.0);
+  text-decoration-color: rgb(182, 255, 23); */
 }
 
 .flex-grow {

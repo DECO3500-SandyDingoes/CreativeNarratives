@@ -39,23 +39,27 @@
 } */
 
 .font-montserrat {
-  font-family: "Montserrat";
+  --font: "Montserrat";
+  /* font-family: "Montserrat"; */
 }
 
 .font-super-woobly {
-  font-family: "Super Woobly";
+  --font: "Super Woobly";
 }
 
 .font-graffiti-youth {
-  font-family: "Graffiti Youth";
+  --font: "Graffiti Youth";
+  /* font-family: "Graffiti Youth"; */
 }
 
 .font-bebas-neue {
-  font-family: "BebasNeue";
+  --font: "BebasNeue";
+  /* font-family: "BebasNeue"; */
 }
 
 .font-redoura-serif {
-  font-family: "Redoura Serif";
+  --font: "Redoura Serif";
+  /* font-family: "Redoura Serif"; */
 }
 
 .colour-red {

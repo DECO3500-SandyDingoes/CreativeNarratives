@@ -13,8 +13,5 @@
   "workspaces": [
     "editor",
     "installation"
-  ],
-  "dependencies": {
-    "peerjs": "^1.5.5"
-  }
+  ]
 }

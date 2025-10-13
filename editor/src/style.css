@@ -13,7 +13,40 @@ main {
   grid-template-rows: 1fr min-content 40vh;
 }
 
-#editor {}
+#editor {
+  align-self: center;
+  justify-self: center;
+}
+
+#editor .text-viewer {
+  display: grid;
+  align-items: baseline;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(16, 1fr);
+}
+
+@keyframes cursor-blink {
+
+  0%,
+  50% {
+    border-color: rgba(255, 0, 0, 1.0);
+  }
+
+  51%,
+  100% {
+    border-color: rgba(255, 0, 0, 0.0);
+  }
+}
+
+.text-viewer .cursor {
+  box-sizing: border-box;
+  animation: cursor-blink 1s infinite ease;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgb(255, 0, 0, 1.0);
+}
+
+.text-viewer .char {}
 
 #toolbar {
   margin: 5px 0;

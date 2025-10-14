@@ -1,4 +1,6 @@
 export async function onRequestGet(context) {
+  // TODO: Expire any posts which haven't been updated recently, ignoring post with null update times.
+
   try {
     const installationKey = await context.env.kv.get("INSTALLATION_KEY");
     const requestKey = context.request.headers.get("X-INSTALLATION-KEY")
@@ -86,6 +88,9 @@ export async function onRequestPost(context) {
 }
 
 export async function onRequestPatch(context) {
+  // TODO: Add a saved property, that when true sets the updated_time to null so that
+  // the post won't expire.
+
   const body = await context.request.json()
 
   const post = await context.env.db.prepare("SELECT * FROM posts WHERE id = ?")

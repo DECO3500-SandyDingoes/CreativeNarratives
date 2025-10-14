@@ -1,6 +1,13 @@
 import './text-styles.css'
 import './start.css'
 import './style.css'
+import { BASE_URL } from "../../shared/shared"
+
+// Global State
+let currentKeyboardFont = "font-montserrat"
+let currentKeyboardColour = "colour-red"
+let currentPostId = ""
+
 
 // Keyboard Layouts
 
@@ -31,10 +38,6 @@ const numericSymbolExtraLayout = [
   ["?123", "%", "<", ">", "-", "-", "-", "-", "delete"],
   ["ABC", ",", "space", ".", "break"]
 ]
-
-// Keyboard State
-let currentKeyboardFont = "font-montserrat"
-let currentKeyboardColour = "colour-red"
 
 // Keyboard and text input handling
 
@@ -281,9 +284,34 @@ const switchInterfaceState = (state: InterfaceState) => {
   }
 }
 
-document.getElementById("connect-button")
-  ?.addEventListener("click", () => {
-    // const code = (document.getElementById("connect-code")! as HTMLInputElement).value
-    // TODO: Request content ID from API here and redirect to editor
-    switchInterfaceState("editing")
-  })
+const connectButton = document.getElementById("connect-button")! as HTMLInputElement
+const connectCode = document.getElementById("connect-code")! as HTMLInputElement
+
+connectButton.addEventListener("click", async () => {
+  const code = connectCode.value
+
+  connectButton.disabled = true
+  connectCode.disabled = true
+
+  try {
+    const response = await fetch(BASE_URL + "/posts", {
+      method: "POST",
+      body: JSON.stringify({ code })
+    })
+    const body = await response.json()
+
+    if (response.status == 200) {
+      console.log(body.id)
+      currentPostId = body.id
+      connectCode.value = ""
+      switchInterfaceState("editing")
+    } else {
+      alert(body.message)
+    }
+  } catch (error) {
+    alert(error)
+  }
+
+  connectButton.disabled = false
+  connectCode.disabled = false
+})

@@ -1,4 +1,5 @@
 import './text-styles.css'
+import './start.css'
 import './style.css'
 
 // Keyboard Layouts
@@ -260,4 +261,29 @@ document.getElementById("clear-button")
 document.getElementById("save-button")
   ?.addEventListener("click", () => {
     console.log(getTextBufferObject())
+    switchInterfaceState("start")
+  })
+
+// Start screen connection behaviour
+
+type InterfaceState = "start" | "editing"
+
+const switchInterfaceState = (state: InterfaceState) => {
+  const start = document.getElementById("start")!
+  const editor = document.getElementById("editor")!
+
+  if (state == "start") {
+    start.style.display = "flex"
+    editor.style.display = "none"
+  } else if (state == "editing") {
+    start.style.display = "none"
+    editor.style.display = "grid"
+  }
+}
+
+document.getElementById("connect-button")
+  ?.addEventListener("click", () => {
+    // const code = (document.getElementById("connect-code")! as HTMLInputElement).value
+    // TODO: Request content ID from API here and redirect to editor
+    switchInterfaceState("editing")
   })

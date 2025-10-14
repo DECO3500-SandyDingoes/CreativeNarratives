@@ -82,15 +82,17 @@ const createTextViewElement = (post: Post) => {
   textview.setAttribute("last-updated", String(post.updated_time))
   textview.classList.add("text-viewer")
 
-  for (let index = 0; index < post.content.text.length; index++) {
-    const character = post.content.text[index];
-    const styles = post.content.styles[index];
+  if (post.content && post.content.text && post.content.styles) {
+    for (let index = 0; index < post.content.text.length; index++) {
+      const character = post.content.text[index];
+      const styles = post.content.styles[index];
 
-    const styledCharacter = document.createElement("span")
-    styledCharacter.innerText = character
-    styledCharacter.classList.value = styles
+      const styledCharacter = document.createElement("span")
+      styledCharacter.innerText = character
+      styledCharacter.classList.value = styles
 
-    textview.appendChild(styledCharacter)
+      textview.appendChild(styledCharacter)
+    }
   }
 
   return textview
@@ -148,8 +150,10 @@ const updatePosts = async () => {
     const textview = document.getElementById(post.id)
 
     if (textview) {
+      // Update existing text
       updateTextViewElement(textview, post)
     } else {
+      // Create new text
       postGrid.prepend(createTextViewElement(post))
     }
   }

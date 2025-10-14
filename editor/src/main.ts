@@ -35,8 +35,6 @@ const numericSymbolExtraLayout = [
 let currentKeyboardFont = "font-montserrat"
 let currentKeyboardColour = "colour-red"
 
-
-
 // Keyboard handlers
 
 const handleKeyboardPress = (key: string) => {
@@ -174,6 +172,7 @@ const fontClassOptions = [
 const handleToolbarSelectColour = (selectedColourClass: string) => {
   // Set colour of any newly entered text
   currentKeyboardColour = selectedColourClass
+  renderToolbar()
 }
 
 
@@ -194,10 +193,18 @@ const handleToolbarSelectFont = (selectedFontClass: string) => {
 const renderToolbar = () => {
   const toolbar = document.getElementById("toolbar")!
 
+  // remove all existing elements
+  while (toolbar.firstChild) {
+    toolbar.removeChild(toolbar.lastChild!)
+  }
+
   for (const colourClass of colourClassOptions) {
     const colourOption = document.createElement("div")
     colourOption.onclick = () => handleToolbarSelectColour(colourClass)
     colourOption.classList.add(colourClass, "colour-option")
+    if (colourClass == currentKeyboardColour) {
+      colourOption.classList.add("colour-selected")
+    }
     toolbar.appendChild(colourOption)
   }
 

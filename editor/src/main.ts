@@ -281,6 +281,7 @@ document.getElementById("save-button")
     console.log(getTextBufferObject())
     switchInterfaceState("start")
     await sendContentUpdate(true)
+    clearBuffer()
   })
 
 // Update pushing behaviour

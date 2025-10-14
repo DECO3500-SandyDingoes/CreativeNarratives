@@ -25,3 +25,16 @@
   border-style: solid;
   border-color: rgb(0, 0, 0);
 }
+
+@keyframes cursor-blink {
+
+  0%,
+  50% {
+    border-color: var(--text-colour);
+  }
+
+  51%,
+  100% {
+    border-color: rgba(255, 0, 0, 0.0);
+  }
+}

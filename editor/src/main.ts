@@ -148,7 +148,7 @@ const clearBuffer = () => {
   contentChanged = true
 }
 
-const getTextBufferObject = () => {
+const getTextBufferObject = (retainCursor: boolean = true) => {
   // Parallel arrays of style classes to character values 
   let text = []
   let styles = []
@@ -158,7 +158,11 @@ const getTextBufferObject = () => {
 
   for (const character of characters) {
     text.push((character as HTMLSpanElement).innerText)
-    styles.push(character.classList.value)
+    if (!retainCursor) {
+      styles.push(character.classList.value.replace("cursor", "").trim())
+    } else {
+      styles.push(character.classList.value)
+    }
   }
 
   return {
@@ -287,13 +291,19 @@ document.getElementById("save-button")
 
 // Update pushing behaviour
 
+/**
+ * Send a patch update for changed text to the API
+ * 
+ * @param save set to true when editing is complete and there will be no
+ * further updates (i.e., save final version)
+ */
 const sendContentUpdate = async (save: boolean) => {
   try {
     const response = await fetch(BASE_URL + "/posts", {
       method: "PATCH",
       body: JSON.stringify({
         id: currentPostId,
-        content: getTextBufferObject(),
+        content: getTextBufferObject(!save), // only retain cursor if not saving final version
         save,
       })
     })

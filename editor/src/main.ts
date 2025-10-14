@@ -59,20 +59,30 @@ const handleKeyboardPress = (key: string) => {
 }
 
 const appendChar = (char: string) => {
+  const textBuffer = document.getElementById("text-buffer")!
+  const characters = textBuffer.getElementsByClassName("char")
+
+  // Prevent greater than 3 rows of 16 characters.
+  if (characters.length >= 3 * 16) {
+    return
+  }
+
+  // Create new styled character element
   const newCharacter = document.createElement("span")
   newCharacter.classList.add("char", "cursor")
   newCharacter.innerText = char
 
-  const textBuffer = document.getElementById("text-buffer")!
-  const characters = textBuffer.getElementsByClassName("char")
-
+  // Attempt to place the new character after the current cursor character
   for (const character of characters) {
     if (character.classList.contains("cursor")) {
       character.classList.remove("cursor")
       character.insertAdjacentElement("afterend", newCharacter)
-      break
+      return
     }
   }
+
+  // If no cursor was found then we just append and set the cursor
+  textBuffer.appendChild(newCharacter)
 }
 
 const removeBackspaceChar = () => {

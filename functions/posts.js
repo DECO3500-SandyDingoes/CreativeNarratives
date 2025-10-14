@@ -103,7 +103,7 @@ export async function onRequestPatch(context) {
     try {
       const result = await context.env.db
         .prepare("UPDATE posts SET updated_time = ?,  content = ? WHERE id = ?")
-        .bind(updatedTime, JSON.stringify(body.content), post.id)
+        .bind(body.save ? null : updatedTime, JSON.stringify(body.content), post.id)
         .run()
 
       if (result.success) {

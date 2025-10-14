@@ -311,6 +311,8 @@ const sendContentUpdate = async (save: boolean) => {
 
     if (response.status != 200) {
       alert(body.message)
+      currentPostId = null
+      switchInterfaceState("start")
     } else {
       console.log("Update successful!")
       if (save) {

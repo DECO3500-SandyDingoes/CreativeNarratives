@@ -277,12 +277,37 @@ document.getElementById("clear-button")
   })
 
 document.getElementById("save-button")
-  ?.addEventListener("click", () => {
+  ?.addEventListener("click", async () => {
     console.log(getTextBufferObject())
     switchInterfaceState("start")
+    await sendContentUpdate(true)
   })
 
 // Update pushing behaviour
+
+const sendContentUpdate = async (save: boolean) => {
+  try {
+    const response = await fetch(BASE_URL + "/posts", {
+      method: "PATCH",
+      body: JSON.stringify({
+        id: currentPostId,
+        content: getTextBufferObject(),
+        save,
+      })
+    })
+    const body = await response.json()
+
+    if (response.status != 200) {
+      alert(body.message)
+      currentPostId = null
+    } else {
+      console.log("Update successful!")
+    }
+  } catch (error) {
+    alert(error)
+    currentPostId = null
+  }
+}
 
 setInterval(async () => {
   const timeSinceLastUpdateSent = Date.now() - lastUpdateSent
@@ -291,27 +316,7 @@ setInterval(async () => {
     contentChanged = false
     lastUpdateSent = Date.now()
     console.log("Sending update!")
-
-    try {
-      const response = await fetch(BASE_URL + "/posts", {
-        method: "PATCH",
-        body: JSON.stringify({
-          id: currentPostId,
-          content: getTextBufferObject()
-        })
-      })
-      const body = await response.json()
-
-      if (response.status != 200) {
-        alert(body.message)
-        currentPostId = null
-      } else {
-        console.log("Update successful!")
-      }
-    } catch (error) {
-      alert(error)
-      currentPostId = null
-    }
+    await sendContentUpdate(false)
   }
 }, 300);
 

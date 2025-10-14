@@ -1,8 +1,4 @@
-body {
-  margin: 0;
-}
-
-main {
+main#start {
   padding-top: 100px;
   width: 100vw;
   display: flex;
@@ -11,18 +7,18 @@ main {
   gap: 5px;
 }
 
-h1 {
+#start h1 {
   font-family: var(--font);
   font-size: 14vw;
   margin: 0;
 }
 
-p {
+#start p {
   font-family: var(--font);
   font-size: 4vw;
 }
 
-#connect-code {
+#start #connect-code {
   font-size: 6vw;
   text-align: center;
   width: 50vw;
@@ -32,7 +28,7 @@ p {
   border-radius: 5px;
 }
 
-#connect-button {
+#start #connect-button {
   width: 50vw;
   font-size: 6vw;
   background: none;
@@ -41,6 +37,6 @@ p {
   border-radius: 5px;
 }
 
-#connect-button:active {
+#start #connect-button:active {
   background: rgb(220, 220, 220);
 }

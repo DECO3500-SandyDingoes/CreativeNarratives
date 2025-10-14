@@ -6,8 +6,17 @@ import { BASE_URL } from "../../shared/shared"
 // Global State
 let currentKeyboardFont = "font-montserrat"
 let currentKeyboardColour = "colour-red"
-let currentPostId = ""
 
+let currentPostId: string | null = null
+
+/** timestamp in milliseconds */
+let lastUpdateSent = 0
+
+/** flag for content changed since last update */
+let contentChanged = false
+
+/** how often to force update in milliseconds */
+const updateInterval = 5 * 1000
 
 // Keyboard Layouts
 
@@ -68,6 +77,7 @@ const handleKeyboardPress = (key: string) => {
       appendChar(key)
       break;
   }
+  contentChanged = true
 }
 
 const appendChar = (char: string) => {
@@ -267,6 +277,40 @@ document.getElementById("save-button")
     switchInterfaceState("start")
   })
 
+// Update pushing behaviour
+
+setInterval(async () => {
+  const timeSinceLastUpdateSent = Date.now() - lastUpdateSent
+
+  if (currentPostId != null && (contentChanged || timeSinceLastUpdateSent >= updateInterval)) {
+    contentChanged = false
+    lastUpdateSent = Date.now()
+    console.log("Sending update!")
+
+    try {
+      const response = await fetch(BASE_URL + "/posts", {
+        method: "PATCH",
+        body: JSON.stringify({
+          id: currentPostId,
+          content: getTextBufferObject()
+        })
+      })
+      const body = await response.json()
+
+      if (response.status != 200) {
+        alert(body.message)
+        currentPostId = null
+      } else {
+        console.log("Update successful!")
+      }
+    } catch (error) {
+      alert(error)
+      currentPostId = null
+    }
+  }
+}, 300);
+
+
 // Start screen connection behaviour
 
 type InterfaceState = "start" | "editing"
@@ -302,7 +346,7 @@ connectButton.addEventListener("click", async () => {
 
     if (response.status == 200) {
       console.log(body.id)
-      currentPostId = body.id
+      currentPostId = body.id as string
       connectCode.value = ""
       switchInterfaceState("editing")
     } else {

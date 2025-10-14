@@ -1,6 +1,6 @@
 main#start {
   padding-top: 100px;
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,19 +9,20 @@ main#start {
 
 #start h1 {
   font-family: var(--font);
-  font-size: 14vw;
+  font-size: 70px;
   margin: 0;
 }
 
 #start p {
   font-family: var(--font);
-  font-size: 4vw;
+  font-size: 18px;
+  text-align: center;
 }
 
 #start #connect-code {
-  font-size: 6vw;
+  font-size: 40px;
   text-align: center;
-  width: 50vw;
+  width: 50%;
   background: none;
   box-sizing: border-box;
   border: 1px solid black;
@@ -29,8 +30,8 @@ main#start {
 }
 
 #start #connect-button {
-  width: 50vw;
-  font-size: 6vw;
+  width: 50%;
+  font-size: 40px;
   background: none;
   box-sizing: border-box;
   border: 1px solid black;

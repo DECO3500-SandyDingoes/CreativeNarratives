@@ -1,120 +1,33 @@
 :root {
-  --text-outline: 0.13vw;
+  --text-outline: 1px;
 }
 
 body {
   margin: 0;
 }
 
-.z-stack {
-  display: grid;
-}
-
-#simulator>* {
+#post-grid {
+  background-color: black;
   width: 100vw;
   min-height: 100vh;
-  background-color: black;
-}
-
-#projection {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-#projection>* {
-  /* border: red 2px dashed; */
-  /* filter: brightness(150%);
-  filter: saturate(130%); */
-  font-family: "Graffiti Youth";
-  overflow: hidden;
-  color: transparent;
-  -webkit-text-stroke: var(--text-outline) rgb(182, 255, 23);
-  display: flex;
-  align-items: flex-start;
-  /* animation: flicker 1s linear infinite; */
-  font-size: 5vw;
-  width: 100vw;
-  /* height: 25vh; */
-  box-sizing: border-box;
-}
-
-.beam {
-  font-family: "Graffiti Youth";
-  overflow: hidden;
-  color: transparent;
-  -webkit-text-stroke: var(--text-outline) rgb(182, 255, 23);
-}
-
-@keyframes flicker {
-
-  0%,
-  19%,
-  22%,
-  62%,
-  64%,
-  70%,
-  100% {
-    opacity: 0.90;
-    padding-left: 0.02vw;
-  }
-
-  20%,
-  21%,
-  63%,
-  65%,
-  69.9% {
-    opacity: 0.85;
-    padding-left: 0px;
-  }
-}
-
-#projection>*:nth-child(1) {
-  animation-delay: 1s;
-}
-
-#projection>*:nth-child(2) {
-  animation-delay: 0.3s;
-}
-
-#projection>*:nth-child(3) {
-  animation-delay: 0.5s;
 }
 
 #link-info {
-  font-family: "BebasNeue";
-  font-size: 5vw;
   display: flex;
-  background: repeating-linear-gradient(45deg,
-      transparent,
-      transparent 0.2vw,
-      rgb(182, 255, 23) 0.2vw,
-      rgb(182, 255, 23) 0.25vw);
-  background-clip: text;
   justify-content: center;
   gap: 1rem;
   height: min-content;
-  /* text-decoration: underline;
-  text-underline-offset: 0.5vw;
-  text-decoration-thickness: calc(var(--text-outline) * 1.0);
-  text-decoration-color: rgb(182, 255, 23); */
 }
 
-.flex-grow {
-  flex-grow: 1;
-}
-
-.beam {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5vw;
-  padding-left: 0.1vw;
-}
-
-.double-line {
-  display: block;
-  line-height: 2vw;
-  text-wrap-mode: wrap;
-  font-size: 2.2vw;
+#link-info span {
+  -webkit-text-stroke: var(--text-outline) var(--text-colour);
+  font-family: "BebasNeue";
+  font-size: 80px;
+  color: transparent;
+  background: repeating-linear-gradient(45deg,
+      transparent,
+      transparent 4px,
+      var(--text-colour) 4px,
+      var(--text-colour) 5px);
+  background-clip: text;
 }

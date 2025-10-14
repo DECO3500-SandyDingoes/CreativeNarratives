@@ -39,45 +39,45 @@
 } */
 
 .font-montserrat {
-  --font: "Montserrat";
+  font-family: "Montserrat";
 }
 
 .font-super-woobly {
-  --font: "Super Woobly";
+  font-family: "Super Woobly";
 }
 
 .font-graffiti-youth {
-  --font: "Graffiti Youth";
+  font-family: "Graffiti Youth";
 }
 
 .font-bebas-neue {
-  --font: "BebasNeue";
+  font-family: "BebasNeue";
 }
 
 .font-redoura-serif {
-  --font: "Redoura Serif";
+  font-family: "Redoura Serif";
 }
 
 .colour-red {
-  --text-colour: #FF0000;
+  -webkit-text-stroke: var(--text-outline) #FF0000;
 }
 
 .colour-blue {
-  --text-colour: #0000FF;
+  -webkit-text-stroke: var(--text-outline) #0000FF;
 }
 
 .colour-green {
-  --text-colour: #059A3C;
+  -webkit-text-stroke: var(--text-outline) #059A3C;
 }
 
 .colour-purple {
-  --text-colour: #9A0568;
+  -webkit-text-stroke: var(--text-outline) #9A0568;
 }
 
 .colour-orange {
-  --text-colour: #FF9E00;
+  -webkit-text-stroke: var(--text-outline) #FF9E00;
 }
 
 .colour-yellow {
-  --text-colour: #FFEE06;
+  -webkit-text-stroke: var(--text-outline) #FFEE06;
 }

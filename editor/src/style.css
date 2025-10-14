@@ -20,7 +20,7 @@ main {
 
 #editor .text-viewer {
   display: grid;
-  align-items: baseline;
+  align-items: stretch;
   grid-template-rows: repeat(3, 1fr);
   grid-template-columns: repeat(16, 1fr);
 }
@@ -38,15 +38,23 @@ main {
   }
 }
 
-.text-viewer .cursor {
+.text-viewer .char {
   box-sizing: border-box;
+  display: block;
+  font-size: 20px;
+  width: 1rem;
+  height: 26px;
+  padding: 1px;
+}
+
+
+.text-viewer .cursor {
   animation: cursor-blink 1s infinite ease;
-  border-width: 2px;
+  padding: 0px;
+  border-width: 1px;
   border-style: solid;
   border-color: rgb(255, 0, 0, 1.0);
 }
-
-.text-viewer .char {}
 
 #toolbar {
   margin: 5px 0;

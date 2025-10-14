@@ -90,6 +90,9 @@ const appendChar = (char: string) => {
     return
   }
 
+  // Flag that a character has been added
+  contentChanged = true
+
   // Create new styled character element
   const newCharacter = document.createElement("span")
   newCharacter.classList.add("char", "cursor", currentKeyboardFont, currentKeyboardColour)
@@ -107,7 +110,6 @@ const appendChar = (char: string) => {
 
   // If no cursor was found then we just append and set the cursor
   textBuffer.appendChild(newCharacter)
-  contentChanged = true
 }
 
 const removeBackspaceChar = () => {
@@ -281,7 +283,6 @@ document.getElementById("save-button")
     console.log(getTextBufferObject())
     switchInterfaceState("start")
     await sendContentUpdate(true)
-    clearBuffer()
   })
 
 // Update pushing behaviour
@@ -300,9 +301,12 @@ const sendContentUpdate = async (save: boolean) => {
 
     if (response.status != 200) {
       alert(body.message)
-      currentPostId = null
     } else {
       console.log("Update successful!")
+      if (save) {
+        console.log("Save successful!")
+        currentPostId = null
+      }
     }
   } catch (error) {
     alert(error)
@@ -359,6 +363,7 @@ connectButton.addEventListener("click", async () => {
       console.log(body.id)
       currentPostId = body.id as string
       connectCode.value = ""
+      clearBuffer()
       switchInterfaceState("editing")
     } else {
       alert(body.message)

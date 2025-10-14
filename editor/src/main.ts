@@ -3,6 +3,8 @@ import './start.css'
 import './style.css'
 import { BASE_URL } from "../../shared/shared"
 
+// TODO: Implement save button!
+
 // Global State
 let currentKeyboardFont = "font-montserrat"
 let currentKeyboardColour = "colour-red"
@@ -77,7 +79,6 @@ const handleKeyboardPress = (key: string) => {
       appendChar(key)
       break;
   }
-  contentChanged = true
 }
 
 const appendChar = (char: string) => {
@@ -106,6 +107,7 @@ const appendChar = (char: string) => {
 
   // If no cursor was found then we just append and set the cursor
   textBuffer.appendChild(newCharacter)
+  contentChanged = true
 }
 
 const removeBackspaceChar = () => {
@@ -121,6 +123,7 @@ const removeBackspaceChar = () => {
       break
     }
   }
+  contentChanged = true
 }
 
 const moveCursor = (to: HTMLElement) => {
@@ -132,6 +135,7 @@ const moveCursor = (to: HTMLElement) => {
   }
 
   to.classList.add("cursor")
+  contentChanged = true
 }
 
 const clearBuffer = () => {
@@ -139,6 +143,7 @@ const clearBuffer = () => {
   while (textBuffer.firstChild) {
     textBuffer.removeChild(textBuffer.lastChild!)
   }
+  contentChanged = true
 }
 
 const getTextBufferObject = () => {

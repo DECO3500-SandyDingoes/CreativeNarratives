@@ -2,16 +2,22 @@ body {
   margin: 0;
 }
 
+main {
+  max-width: 450px;
+  margin: auto;
+}
+
 main#editor {
   -webkit-touch-callout: none;
   user-select: none;
   display: none;
   /* display: grid; */
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   max-width: 500px;
   margin: auto;
   grid-template-rows: min-content 1fr min-content 40vh;
+  grid-template-columns: 100%;
 }
 
 .text-viewer {
@@ -21,7 +27,8 @@ main#editor {
   align-items: baseline;
   justify-content: stretch;
   grid-template-rows: repeat(3, 1fr);
-  grid-template-columns: repeat(16, 6vw);
+  grid-template-columns: repeat(16, 6%);
+  width: 90%;
 }
 
 @keyframes cursor-blink {

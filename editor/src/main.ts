@@ -35,7 +35,7 @@ const numericSymbolExtraLayout = [
 let currentKeyboardFont = "font-montserrat"
 let currentKeyboardColour = "colour-red"
 
-// Keyboard handlers
+// Keyboard and text input handling
 
 const handleKeyboardPress = (key: string) => {
   switch (key) {
@@ -118,6 +118,13 @@ const moveCursor = (to: HTMLElement) => {
   }
 
   to.classList.add("cursor")
+}
+
+const clearBuffer = () => {
+  const textBuffer = document.getElementById("text-buffer")!
+  while (textBuffer.firstChild) {
+    textBuffer.removeChild(textBuffer.lastChild!)
+  }
 }
 
 const renderKeyboard = (layout: string[][]) => {
@@ -223,3 +230,15 @@ const renderToolbar = () => {
 }
 
 renderToolbar()
+
+// Top bar behaviour
+
+document.getElementById("clear-button")
+  ?.addEventListener("click", () => {
+    clearBuffer()
+  })
+
+document.getElementById("save-button")
+  ?.addEventListener("click", () => {
+
+  })

@@ -10,7 +10,7 @@ main {
   max-width: 500px;
   margin: auto;
   display: grid;
-  grid-template-rows: 1fr min-content 40vh;
+  grid-template-rows: min-content 1fr min-content 40vh;
 }
 
 #editor {
@@ -133,4 +133,24 @@ main {
 #keyboard .space {
   width: calc(50% - 5px);
   font-size: 100%;
+}
+
+#top-bar {
+  display: grid;
+  padding: 5px;
+  gap: 5px;
+  grid-template-columns: 1fr 1fr;
+}
+
+#top-bar>* {
+  padding: 5px;
+  font-size: 20px;
+  background: none;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+#top-bar>*:active {
+  background: rgb(220, 220, 220);
 }

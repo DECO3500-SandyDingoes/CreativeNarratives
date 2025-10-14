@@ -84,3 +84,55 @@ export async function onRequestPost(context) {
     )
   }
 }
+
+export async function onRequestPatch(context) {
+  const body = await context.request.json()
+
+  const post = await context.env.db.prepare("SELECT * FROM posts WHERE id = ?")
+    .bind(body.id)
+    .first()
+
+  if (post && body.content) {
+    const updatedTime = Date.now()
+
+    try {
+      const result = await context.env.db
+        .prepare("UPDATE posts SET updated_time = ?,  content = ? WHERE id = ?")
+        .bind(updatedTime, JSON.stringify(body.content), post.id)
+        .run()
+
+      if (result.success) {
+        return Response.json(
+          {
+            message: "Post updated successfully.",
+          }
+        )
+      } else {
+        return Response.json(
+          {
+            message: "Failed to update post.",
+          }
+        )
+      }
+    } catch (error) {
+      console.error(error)
+      return Response.json(
+        {
+          message: "There was a database error."
+        },
+        {
+          status: 500
+        }
+      )
+    }
+  } else {
+    return Response.json(
+      {
+        message: "Post with " + body.id + " was not found."
+      },
+      {
+        status: 404
+      }
+    )
+  }
+}

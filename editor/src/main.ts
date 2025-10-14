@@ -71,6 +71,7 @@ const appendChar = (char: string) => {
   const newCharacter = document.createElement("span")
   newCharacter.classList.add("char", "cursor")
   newCharacter.innerText = char
+  newCharacter.onclick = () => moveCursor(newCharacter)
 
   // Attempt to place the new character after the current cursor character
   for (const character of characters) {
@@ -98,6 +99,17 @@ const removeBackspaceChar = () => {
       break
     }
   }
+}
+
+const moveCursor = (to: HTMLElement) => {
+  const textBuffer = document.getElementById("text-buffer")!
+  const cursorCharacters = textBuffer.getElementsByClassName("cursor")
+
+  for (const character of cursorCharacters) {
+    character.classList.remove("cursor")
+  }
+
+  to.classList.add("cursor")
 }
 
 const renderKeyboard = (layout: string[][]) => {

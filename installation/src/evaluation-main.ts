@@ -140,8 +140,6 @@ const updatePosts = async () => {
     }
   })
 
-
-
   const posts = await response.json() as Post[]
 
   posts.sort((a, b) => a.created_time - b.created_time)
@@ -155,6 +153,15 @@ const updatePosts = async () => {
     } else {
       // Create new text
       postGrid.prepend(createTextViewElement(post))
+    }
+  }
+
+  for (const textview of document.getElementsByClassName("text-viewer")) {
+    const lastUpdatedAttribute = textview.getAttribute("last-updated")
+    const expiry = Date.now() - 10 * 1000
+    if (lastUpdatedAttribute && parseInt(lastUpdatedAttribute) < expiry) {
+      console.log(textview.id + " has expired, removing.")
+      textview.remove()
     }
   }
 

@@ -32,6 +32,8 @@ const numericSymbolExtraLayout = [
 const handleKeyboardPress = (key: string) => {
   switch (key) {
     case "delete":
+      removeBackspaceChar()
+      break;
     case "break":
       break;
     case "ABC":
@@ -68,6 +70,21 @@ const appendChar = (char: string) => {
     if (character.classList.contains("cursor")) {
       character.classList.remove("cursor")
       character.insertAdjacentElement("afterend", newCharacter)
+      break
+    }
+  }
+}
+
+const removeBackspaceChar = () => {
+  const textBuffer = document.getElementById("text-buffer")!
+  const characters = textBuffer.getElementsByClassName("char")
+
+  for (const character of characters) {
+    if (character.classList.contains("cursor")) {
+      if (character.previousElementSibling) {
+        character.previousElementSibling.classList.add("cursor")
+      }
+      character.remove()
       break
     }
   }

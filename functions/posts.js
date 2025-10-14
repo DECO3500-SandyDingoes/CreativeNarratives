@@ -1,11 +1,16 @@
 export async function onRequestGet(context) {
-  // TODO: Expire any posts which haven't been updated recently, ignoring post with null update times.
-
   try {
     const installationKey = await context.env.kv.get("INSTALLATION_KEY");
     const requestKey = context.request.headers.get("X-INSTALLATION-KEY")
 
     if (requestKey == installationKey) {
+      // Expire any posts which haven't been saved or updated in the last 10 seconds, 
+      // ignoring post with null update times.
+      const expiry = Date.now() - 10 * 1000
+      await context.env.db.prepare("DELETE FROM posts WHERE updated_time IS NOT NULL AND updated_time < ?")
+        .bind(expiry)
+        .run()
+
       const result = await context.env.db.prepare("SELECT * FROM posts ORDER BY created_time DESC LIMIT 50").run()
 
       // De-stringify (parse) content structure back into an object. 

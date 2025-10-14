@@ -4,10 +4,10 @@
 
 body {
   margin: 0;
+  background-color: black;
 }
 
 #post-grid {
-  background-color: black;
   width: 100vw;
   min-height: 100vh;
 }

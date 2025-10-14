@@ -1,0 +1,27 @@
+.text-viewer {
+  display: grid;
+  align-items: baseline;
+  justify-content: stretch;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(16, 1fr);
+}
+
+.text-viewer .char {
+  box-sizing: border-box;
+  display: block;
+  font-size: 30px;
+  height: 100%;
+  padding: 1px;
+  text-align: center;
+  font-family: var(--font);
+  color: var(--text-colour)
+}
+
+
+.text-viewer .cursor {
+  animation: cursor-blink 1s infinite ease;
+  padding: 0px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(0, 0, 0);
+}

@@ -1,5 +1,4 @@
 import { BASE_URL } from "../../shared/shared"
-import "./text-styles.css"
 
 //// Simulator fullscreen toggle ////
 
@@ -77,7 +76,61 @@ interface Content {
   styles: string[]
 }
 
-const loadPosts = async () => {
+const createTextViewElement = (post: Post) => {
+  const textview = document.createElement("article")
+  textview.id = post.id
+  textview.setAttribute("last-updated", String(post.updated_time))
+  textview.classList.add("text-viewer")
+
+  for (let index = 0; index < post.content.text.length; index++) {
+    const character = post.content.text[index];
+    const styles = post.content.styles[index];
+
+    const styledCharacter = document.createElement("span")
+    styledCharacter.innerText = character
+    styledCharacter.classList.value = styles
+
+    textview.appendChild(styledCharacter)
+  }
+
+  return textview
+}
+
+const updateTextViewElement = (textview: HTMLElement, post: Post) => {
+  const lastUpdatedAttribute = textview.getAttribute("last-updated")
+
+  // Only update text with a last updated attribute
+  if (lastUpdatedAttribute) {
+
+    // Update if this is the last update of if the update 
+    // contrent is newer than the element content
+    const lastUpdated = parseInt(lastUpdatedAttribute)
+    if (post.updated_time == null || post.updated_time > lastUpdated) {
+      textview.innerText = ""
+      for (let index = 0; index < post.content.text.length; index++) {
+        const character = post.content.text[index];
+        const styles = post.content.styles[index];
+
+        const styledCharacter = document.createElement("span")
+        styledCharacter.innerText = character
+        styledCharacter.classList.value = styles
+
+        textview.appendChild(styledCharacter)
+      }
+
+      // If the updated time was null then there will be no more updates
+      // so we remove the last updated attribute. Otherwise, just
+      // set the new updated time.
+      if (post.updated_time == null) {
+        textview.removeAttribute("last-updated")
+      } else {
+        textview.setAttribute("last-updated", String(post.updated_time))
+      }
+    }
+  }
+}
+
+const updatePosts = async () => {
   const response = await fetch(BASE_URL + "/posts", {
     method: "GET",
     headers: {
@@ -85,27 +138,26 @@ const loadPosts = async () => {
     }
   })
 
+
+
   const posts = await response.json() as Post[]
-  console.log(posts)
+
+  posts.sort((a, b) => a.created_time - b.created_time)
 
   for (const post of posts) {
-    const postElement = document.createElement("article")
+    const textview = document.getElementById(post.id)
 
-    for (let index = 0; index < post.content.text.length; index++) {
-      const character = post.content.text[index];
-      const styles = post.content.styles[index];
-
-      const styledCharacter = document.createElement("span")
-      styledCharacter.innerText = character
-      styledCharacter.classList.value = styles
-
-      postElement.appendChild(styledCharacter)
+    if (textview) {
+      updateTextViewElement(textview, post)
+    } else {
+      postGrid.prepend(createTextViewElement(post))
     }
-
-    postGrid.appendChild(postElement)
   }
 
 
 }
 
-loadPosts()
+updatePosts()
+setInterval(() => {
+  updatePosts()
+}, 1000)

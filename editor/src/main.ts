@@ -127,6 +127,25 @@ const clearBuffer = () => {
   }
 }
 
+const getTextBufferObject = () => {
+  // Parallel arrays of style classes to character values 
+  let text = []
+  let styles = []
+
+  const textBuffer = document.getElementById("text-buffer")!
+  const characters = textBuffer.getElementsByClassName("char")
+
+  for (const character of characters) {
+    text.push((character as HTMLSpanElement).innerText)
+    styles.push(character.classList.value)
+  }
+
+  return {
+    text,
+    styles
+  }
+}
+
 const renderKeyboard = (layout: string[][]) => {
   const keyboard = document.getElementById("keyboard")!
 
@@ -240,5 +259,5 @@ document.getElementById("clear-button")
 
 document.getElementById("save-button")
   ?.addEventListener("click", () => {
-
+    console.log(getTextBufferObject())
   })

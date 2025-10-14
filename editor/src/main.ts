@@ -1,6 +1,8 @@
 import './text-styles.css'
 import './style.css'
 
+// Keyboard Layouts
+
 const alphaLayout = [
   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
   ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
@@ -28,6 +30,14 @@ const numericSymbolExtraLayout = [
   ["?123", "%", "<", ">", "-", "-", "-", "-", "delete"],
   ["ABC", ",", "space", ".", "break"]
 ]
+
+// Keyboard State
+let currentKeyboardFont = "font-montserrat"
+let currentKeyboardColour = "colour-red"
+
+
+
+// Keyboard handlers
 
 const handleKeyboardPress = (key: string) => {
   switch (key) {
@@ -69,7 +79,7 @@ const appendChar = (char: string) => {
 
   // Create new styled character element
   const newCharacter = document.createElement("span")
-  newCharacter.classList.add("char", "cursor")
+  newCharacter.classList.add("char", "cursor", currentKeyboardFont, currentKeyboardColour)
   newCharacter.innerText = char
   newCharacter.onclick = () => moveCursor(newCharacter)
 
@@ -162,7 +172,8 @@ const fontClassOptions = [
 ]
 
 const handleToolbarSelectColour = (selectedColourClass: string) => {
-  // TODO: Set colour of any newly entered text
+  // Set colour of any newly entered text
+  currentKeyboardColour = selectedColourClass
 }
 
 
@@ -176,7 +187,8 @@ const handleToolbarSelectFont = (selectedFontClass: string) => {
     }
   }
 
-  // TODO: Set font of any newly enter text
+  // Set font of any newly enter text
+  currentKeyboardFont = selectedFontClass
 }
 
 const renderToolbar = () => {

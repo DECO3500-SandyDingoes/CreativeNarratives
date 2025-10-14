@@ -45,6 +45,9 @@ main {
   width: 1rem;
   height: 26px;
   padding: 1px;
+  text-align: center;
+  font-family: var(--font);
+  color: var(--text-colour)
 }
 
 

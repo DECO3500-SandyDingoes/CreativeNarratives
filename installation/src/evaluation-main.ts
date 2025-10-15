@@ -1,13 +1,12 @@
 import { BASE_URL } from "../../shared/shared"
 
-//// Simulator fullscreen toggle ////
+//// Fullscreen toggle ////
 
-const postGrid = document.getElementById("post-grid")!
-postGrid.addEventListener("click", () => {
+document.addEventListener("click", () => {
   if (document.fullscreenElement) {
     document.exitFullscreen()
   } else {
-    postGrid.requestFullscreen()
+    document.body.requestFullscreen()
   }
 })
 
@@ -133,6 +132,7 @@ const updateTextViewElement = (textview: HTMLElement, post: Post) => {
 }
 
 const updatePosts = async () => {
+  const postGrid = document.getElementById("post-grid")!
   const response = await fetch(BASE_URL + "/posts", {
     method: "GET",
     headers: {

@@ -1,19 +1,28 @@
 :root {
-  --text-outline: 1px;
+  --text-outline: 1.5px;
+  --grid-columns: 4;
+  --grid-rows: 6;
 }
 
 body {
   margin: 0;
+  padding: 20px;
   background-color: black;
+  display: grid;
+  grid-template-rows: min-content 1fr;
 }
 
 #post-grid {
-  width: 100vw;
-  min-height: 100vh;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-template-rows: repeat(var(--grid-rows), 1fr);
+  height: min-content;
 }
 
 #link-info {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
   height: min-content;
@@ -21,9 +30,9 @@ body {
 
 #link-info span {
   -webkit-text-stroke: var(--text-outline) var(--text-colour);
+  color: transparent;
   font-family: "BebasNeue";
   font-size: 80px;
-  color: transparent;
   background: repeating-linear-gradient(45deg,
       transparent,
       transparent 4px,

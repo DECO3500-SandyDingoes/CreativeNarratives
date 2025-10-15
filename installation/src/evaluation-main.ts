@@ -38,7 +38,7 @@ let code = ""
 const updateCode = () => {
   const linkPinElement = document.getElementById("link-pin")
   code = generateCode()
-  fetch(BASE_URL + "/codes", {
+  fetch(BASE_URL + "/code", {
     method: "PATCH",
     headers: {
       "X-INSTALLATION-KEY": INSTALLATION_KEY

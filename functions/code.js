@@ -33,3 +33,39 @@ export async function onRequestPatch(context) {
     )
   }
 }
+
+export async function onRequestGet(context) {
+  try {
+    const installationKey = await context.env.kv.get("INSTALLATION_KEY");
+    const requestKey = context.request.headers.get("X-INSTALLATION-KEY")
+
+    if (requestKey == installationKey) {
+      const code = await context.env.kv.get("code");
+      return Response.json(
+        {
+          message: "Accessed existing code successfully.",
+          code,
+        }
+      )
+    } else {
+      return Response.json(
+        {
+          message: "Missing or invalid installation key or code."
+        },
+        {
+          status: 400
+        }
+      )
+    }
+  } catch (error) {
+    console.error(error)
+    return Response.json(
+      {
+        message: "There was server error."
+      },
+      {
+        status: 500
+      }
+    )
+  }
+}

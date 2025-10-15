@@ -1,6 +1,6 @@
 :root {
   --text-outline: 1.5px;
-  --grid-columns: 4;
+  --grid-columns: 3;
   --grid-rows: 6;
 }
 
@@ -10,22 +10,85 @@ body {
   background-color: black;
   display: grid;
   grid-template-rows: min-content 1fr;
+  justify-items: center;
+  filter: brightness(160%);
 }
 
 #post-grid {
   display: grid;
-  gap: 20px;
+  row-gap: 20px;
+  column-gap: 10px;
+  width: min-content;
   grid-template-columns: repeat(var(--grid-columns), 1fr);
   grid-template-rows: repeat(var(--grid-rows), 1fr);
   height: min-content;
+  justify-items: stretch;
+}
+
+@keyframes flicker {
+
+  0%,
+  19%,
+  22%,
+  62%,
+  64%,
+  70%,
+  100% {
+    transform: translate(1px);
+  }
+
+  20%,
+  21%,
+  63%,
+  65%,
+  69.9% {
+    transform: translate(0px);
+  }
+}
+
+#post-grid>* {
+  border-radius: 20px;
+  padding: 10px;
+  /* animation: flicker 0.4s linear infinite; */
+}
+
+#post-grid>:nth-child(n),
+#post-grid>:nth-child(3n) {
+  border: 2px solid red;
+  /* margin-left: 50px; */
+  rotate: -1deg;
+  transform: translate(20px, 10px);
+  /* animation: flicker 0.7s linear infinite; */
+}
+
+#post-grid>:nth-child(4n),
+#post-grid>:nth-child(2n) {
+  border: 2px solid green;
+  /* margin-left: 100px; */
+  rotate: 2deg;
+  transform: translate(-10px, -5px);
+  /* animation: flicker 1s linear infinite; */
+}
+
+#post-grid>:nth-child(5n) {
+  border: 2px solid blue;
+  /* margin-left: 100px; */
+  rotate: -3deg;
+  transform: translate(5px, -10px);
+  /* animation: flicker 0.5s linear infinite; */
 }
 
 #link-info {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: baseline;
   gap: 1rem;
   height: min-content;
+}
+
+#link-info .large {
+  font-size: 130px;
 }
 
 #link-info span {

@@ -10,6 +10,7 @@ main {
 main#editor {
   -webkit-touch-callout: none;
   user-select: none;
+  touch-action: none;
   display: none;
   /* display: grid; */
   height: 100vh;

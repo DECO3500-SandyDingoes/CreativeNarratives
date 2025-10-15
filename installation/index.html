@@ -3,32 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script type="module" src="/src/main.ts" defer></script>
-    <link rel="stylesheet" href="/src/style.css">
+    <script type="module" src="/src/projector.ts" defer></script>
+    <link rel="stylesheet" href="/src/text-styles.css">
+    <link rel="stylesheet" href="/src/shared.css">
+    <link rel="stylesheet" href="/src/projector.css">
     <title>Creative Narratives Installation</title>
   </head>
-  <body>
-    <section id="simulator" class="z-stack">
-      <video autoplay muted loop src="/close-up-loop.mp4" id="video-loop"></video>
-      <section id="projection" class="z-stack">
-        <section>
-          <article id="link-info" class="colour-green">
-            <span>URL:</span>
-            <span>under.place</span>
-            <span>PIN:</span>
-            <span id="link-pin"></span>
-          </article>
-          <section>
-            <section id="first-beam" class="flex-grow beam"></section>
-          </section>
-        </section>
-        <section>
-          <section id="second-beam" class="beam"></section>
-        </section>
-        <section>
-          <section id="third-beam" class="beam"></section>
-        </section>
-      </section>
-    </section>
+  <body id="root">
+    <article id="link-info" class="colour-red">
+      <span>Contribute</span>
+      <span>at</span>
+      <span class="colour-orange">under.place</span>
+      <span>with</span>
+      <span>code</span>
+      <span id="link-pin" class="colour-orange"></span>
+    </article>
+    <main id="post-grid">
+    </main>
+
   </body>
 </html>

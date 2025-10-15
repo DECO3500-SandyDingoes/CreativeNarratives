@@ -1,16 +1,14 @@
-// import { BASE_URL, type Run } from "../../shared/shared"
-// import "./text-styles.css"
+// import { BASE_URL } from "../../shared/shared"
 
 // //// Simulator fullscreen toggle ////
 
-// const simulatorElement = document.getElementById("simulator")!
-// simulatorElement.addEventListener("click", () => {
-//   if (document.fullscreenElement) {
-//     document.exitFullscreen()
-//   } else {
-//     simulatorElement.requestFullscreen()
-//   }
-// })
+document.addEventListener("click", () => {
+  if (document.fullscreenElement) {
+    document.exitFullscreen()
+  } else {
+    document.body.requestFullscreen()
+  }
+})
 
 // //// PIN Code Handling ////
 
@@ -177,51 +175,5 @@
 //       // Append article container to the beam element
 //       beamElement.appendChild(storyContainer)
 //     }
-//   }
-// }
-
-// /**
-//  * Map the font names used on the editor app to the font classes used by the installation.
-//  *
-//  * @param name editor app font name
-//  * @returns css class name for corresponding font
-//  */
-// const mapFont = (name: string): string => {
-//   switch (name) {
-//     case "Montserrat":
-//       return "font-montserrat"
-//     case "Super Woobly":
-//       return "font-super-woobly"
-//     case "Bebas Neue":
-//       return "font-bebas-neue"
-//     case "Redoura":
-//       return "font-redoura-serif"
-//     case "Graffiti Youth":
-//     default:
-//       return "font-graffiti-youth"
-//   }
-// }
-
-// /**
-//  * Map the colours used on the editor app to the colour classes used by the installation.
-//  *
-//  * @param name editor app colour value
-//  * @returns css class name for corresponding colour
-//  */
-// const mapColour = (name: string): string => {
-//   switch (name) {
-//     case "#FF3B30":
-//       return "colour-red"
-//     case "#007AFF":
-//       return "colour-blue"
-//     case "#AF52DE":
-//       return "colour-purple"
-//     case "#FF9500":
-//       return "colour-orange"
-//     case "#FFD60A":
-//       return "colour-yellow"
-//     case "#34C759":
-//     default:
-//       return "colour-green"
 //   }
 // }

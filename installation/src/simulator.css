@@ -23,10 +23,15 @@ body {
   grid-row: 1;
 }
 
+.beam {
+  border: red solid 0.05vw;
+  display: flex;
+  align-items: center;
+  gap: 0.5vw;
+  padding-left: 0.1vw;
+}
+
 #projection>* {
-  /* border: red 2px dashed; */
-  filter: brightness(150%);
-  filter: saturate(130%);
   text-shadow: 0 0 0.7vw #0000004a;
   font-family: "Graffiti Youth";
   overflow: hidden;
@@ -34,36 +39,10 @@ body {
   color: transparent;
   -webkit-text-stroke: var(--text-outline) rgb(182, 255, 23);
   display: flex;
-  /* align-items: flex-end; */
   align-items: center;
-  /* opacity: 0.4; */
-  animation: flicker 1s linear infinite;
 }
 
-@keyframes flicker {
-
-  0%,
-  19%,
-  22%,
-  62%,
-  64%,
-  70%,
-  100% {
-    opacity: 0.90;
-    padding-left: 0.02vw;
-  }
-
-  20%,
-  21%,
-  63%,
-  65%,
-  69.9% {
-    opacity: 0.85;
-    padding-left: 0px;
-  }
-}
-
-#projection>*:nth-child(1) {
+#first-beam {
   filter: brightness(250%) saturate(150%);
   animation-delay: 1s;
   font-size: 2vw;
@@ -75,7 +54,7 @@ body {
   /* opacity: 0.6; */
 }
 
-#projection>*:nth-child(2) {
+#second-beam {
   animation-delay: 0.3s;
   font-size: 2vw;
   width: 65vw;
@@ -84,7 +63,7 @@ body {
   transform: translate(36vw, 28.8vw) perspective(50vw) rotateX(398deg) rotateY(54.5deg) rotateZ(-13.7deg);
 }
 
-#projection>*:nth-child(3) {
+#third-beam {
   animation-delay: 0.5s;
   font-size: 2vw;
   width: 65vw;
@@ -104,22 +83,4 @@ body {
   column-gap: 0.4vw;
   align-self: flex-end;
   padding-right: 3vw;
-}
-
-.flex-grow {
-  flex-grow: 1;
-}
-
-.beam {
-  display: flex;
-  align-items: center;
-  gap: 0.5vw;
-  padding-left: 0.1vw;
-}
-
-.double-line {
-  display: block;
-  line-height: 1vw;
-  text-wrap-mode: wrap;
-  font-size: 1.5vw;
 }

@@ -1,6 +1,6 @@
-// import { BASE_URL } from "../../shared/shared"
+import { BASE_URL } from "../../shared/shared"
 
-// //// Simulator fullscreen toggle ////
+//// Simulator fullscreen toggle ////
 
 document.addEventListener("click", () => {
   if (document.fullscreenElement) {
@@ -10,56 +10,39 @@ document.addEventListener("click", () => {
   }
 })
 
-// //// PIN Code Handling ////
+//// PIN Code Handling ////
 
-// /**
-//  * The key used to authenticate the installation with the backend service.
-//  */
-// const INSTALLATION_KEY = import.meta.env.INSTALLATION_KEY
+/**
+ * The key used to authenticate the installation with the backend service.
+ */
+const INSTALLATION_KEY = import.meta.env.INSTALLATION_KEY
 
-// /**
-//  * Generate a new random 4 digit code.
-//  *
-//  * @returns 4 digit code
-//  */
-// const generateCode = (): string => {
-//   const pin = 1000 + Math.floor(Math.random() * 8999)
-//   return pin.toString()
-// }
+/**
+ * Generate a new PIN code and update on the backend service.
+ */
+const updateCode = async () => {
+  try {
+    const linkPinElement = document.getElementById("link-pin")!
+    const response = await fetch(BASE_URL + "/code", {
+      method: "GET",
+      headers: {
+        "X-INSTALLATION-KEY": INSTALLATION_KEY
+      },
+    })
 
-// /**
-//  * Contains the current PIN code that the installation will accept submissions from.
-//  */
-// let code = ""
+    const body = await response.json()
 
-// /**
-//  * Generate a new PIN code and update on the backend service.
-//  */
-// const updateCode = () => {
-//   const linkPinElement = document.getElementById("link-pin")
-//   code = generateCode()
-//   fetch(BASE_URL + "/codes", {
-//     method: "PATCH",
-//     headers: {
-//       "X-INSTALLATION-KEY": INSTALLATION_KEY
-//     },
-//     body: JSON.stringify({ code: code })
-//   })
-//     .then(res => {
-//       if (res.status == 200 && linkPinElement) {
-//         linkPinElement.innerText = code
-//       } else {
-//         console.error("Failed to update PIN code on backend.")
-//       }
-//     })
-//     .catch(error => {
-//       console.error("PIN Code update request failed: " + error)
-//     })
-// }
+    if (response.status == 200 && body.code) {
+      linkPinElement.innerText = body.code
+    }
+  } catch (error) {
+    console.error("Failed to get connection code: " + error)
+  }
+}
 
-// // Setup and initial PIN code and then regenerate it every 5 minutes.
-// updateCode()
-// setInterval(() => updateCode(), 5 * 60 * 1000)
+// Setup and initial PIN code and then regenerate it every 5 minutes.
+updateCode()
+setInterval(() => updateCode(), 5000)
 
 // //// Story Content Handling ////
 

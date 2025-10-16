@@ -9,7 +9,7 @@
 .text-viewer .char {
   box-sizing: border-box;
   display: block;
-  font-size: 40px;
+  font-size: var(--content-font-size);
   line-height: 70%;
   height: 100%;
   padding: 1px;

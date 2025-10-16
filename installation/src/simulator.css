@@ -1,6 +1,7 @@
 :root {
   --text-outline: 0.03vw;
   --link-font-size: 1.8vw;
+  --content-font-size: 0.9vw;
   --link-font-size-large: 2.1vw;
   --hatch-fill-gap: 0.1vw;
   --hatch-fill-thickness: 0.08vw;
@@ -27,16 +28,25 @@ body {
   grid-row: 1;
 }
 
+.text-viewer {
+  border: 0.02vw solid red;
+  border-radius: 0.3vw;
+  padding: 0.1vw;
+}
+
+.text-viewer:nth-child(3n) {
+  rotate: -3deg;
+  transform: translate(0.2vw, 0.1vw);
+}
+
 .beam {
   font-family: "Graffiti Youth";
   filter: brightness(160%);
   color: transparent;
   -webkit-text-stroke: var(--text-outline) rgb(182, 255, 23);
-  /* border: red solid 0.05vw; */
   display: flex;
   align-items: flex-end;
   gap: 0.5vw;
-  padding-left: 0.1vw;
   overflow: hidden;
 }
 
@@ -48,11 +58,9 @@ body {
   box-sizing: border-box;
   /* clip-path: polygon(100.01% 0.02%, 100% 100%, 0% 100%, -0.12% 0.44%, 13.46% 0.24%, 14.98% 78.89%, 17.58% 2.7%, 25.31% -0.18%) view-box; */
   transform: translate(38vw, 27.3vw) perspective(50vw) rotateX(416.5deg) rotateY(54.5deg) rotateZ(-28.7deg);
-  /* opacity: 0.6; */
 }
 
 #second-beam {
-  animation-delay: 0.3s;
   font-size: 2vw;
   width: 65vw;
   height: 3vw;
@@ -61,7 +69,6 @@ body {
 }
 
 #third-beam {
-  animation-delay: 0.5s;
   font-size: 2vw;
   width: 65vw;
   height: 3vw;

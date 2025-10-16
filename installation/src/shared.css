@@ -24,7 +24,7 @@
 .text-viewer .cursor {
   animation: cursor-blink 1s infinite ease;
   padding: 0px;
-  border-width: 2px;
+  border-width: var(--text-outline);
   border-style: solid;
   border-color: rgb(0, 0, 0);
 }

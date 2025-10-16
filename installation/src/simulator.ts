@@ -44,119 +44,114 @@ const updateCode = async () => {
 updateCode()
 setInterval(() => updateCode(), 5000)
 
-// //// Story Content Handling ////
+//// Content Handling ////
 
-// /**
-//  * Represents a story submitted to the installation.
-//  */
-// interface Story {
-//   content: Run[]
-//   timestamp: number
-// }
+interface Post {
+  id: string
+  created_time: number
+  updated_time: number | null
+  content: Content
+}
 
-// /**
-//  * Stores the stories that have been fetched from the backend.
-//  *
-//  * [0] is the first beam.
-//  * [1] is the second beam.
-//  * [2] is the third beam.
-//  */
-// const stories: Story[][] = [[], [], []]
+interface Content {
+  text: string[]
+  styles: string[]
+}
 
-// /**
-//  * The timestamp of the last fetch from the backend.
-//  */
-// let newestTimestamp = 0
+const createTextViewElement = (post: Post) => {
+  const textview = document.createElement("article")
+  textview.id = post.id
+  textview.setAttribute("last-updated", String(post.updated_time))
+  textview.classList.add("text-viewer")
 
-// /**
-//  * Fetch the latest stories (since lastFetchTimestamp) from the backend, and append to `stories`.
-//  */
-// const fetchLatestStories = () => {
-//   fetch(BASE_URL + "/stories?timestamp=" + newestTimestamp, {
-//     method: "GET",
-//     headers: {
-//       "X-INSTALLATION-KEY": INSTALLATION_KEY,
-//     }
-//   })
-//     .then(response => response.json())
-//     .then((newStories: Array<Story>) => {
-//       newStories.sort((a, b) => a.timestamp - b.timestamp)
-//       newStories.forEach(s => addStory(s))
-//       if (newStories.length > 0) {
-//         newestTimestamp = newStories[newStories.length - 1].timestamp + 1
-//       }
-//     })
-//     .catch(error => {
-//       console.error("Failed to fetch new stories: " + error)
-//     })
-// }
+  if (post.content && post.content.text && post.content.styles) {
+    for (let index = 0; index < post.content.text.length; index++) {
+      const character = post.content.text[index];
+      const styles = post.content.styles[index];
 
-// // Fetch existing stories and then fetch new stories every two seconds
-// fetchLatestStories()
-// setInterval(() => fetchLatestStories(), 2 * 1000)
+      const styledCharacter = document.createElement("span")
+      styledCharacter.innerText = character
+      styledCharacter.classList.value = styles
 
-// /**
-//  * The index of the last beam which had a story added to it. Used for roundrobin appending.
-//  */
-// let lastBeamIndex = 0
+      textview.appendChild(styledCharacter)
+    }
+  }
 
-// /**
-//  * Add a story the beams. The beams are selected roundrobin style (for now).
-//  * @param story to add
-//  */
-// const addStory = (story: Story) => {
-//   // Prepend story to the front
-//   stories[lastBeamIndex] = [story, ...stories[lastBeamIndex]]
+  return textview
+}
 
-//   // Increment index to next beam for the next story added.
-//   lastBeamIndex = (lastBeamIndex + 1) % 3
-//   updateStoryDisplay()
-// }
+const updateTextViewElement = (textview: HTMLElement, post: Post) => {
+  const lastUpdatedAttribute = textview.getAttribute("last-updated")
 
-// /**
-//  * Render the styled text elements of the currently stored stories to the screen.
-//  */
-// const updateStoryDisplay = () => {
-//   const beamElements = [
-//     document.getElementById("first-beam")!,
-//     document.getElementById("second-beam")!,
-//     document.getElementById("third-beam")!
-//   ]
+  // Only update text with a last updated attribute
+  if (lastUpdatedAttribute) {
 
-//   for (let beamIndex = 0; beamIndex < 3; beamIndex++) {
-//     const beamElement = beamElements[beamIndex]
-//     const beamStories = stories[beamIndex]
+    // Update if this is the last update of if the update 
+    // contrent is newer than the element content
+    const lastUpdated = parseInt(lastUpdatedAttribute)
+    if (post.updated_time == null || post.updated_time > lastUpdated) {
+      textview.innerText = ""
+      for (let index = 0; index < post.content.text.length; index++) {
+        const character = post.content.text[index];
+        const styles = post.content.styles[index];
 
-//     beamElement.innerHTML = ""
+        const styledCharacter = document.createElement("span")
+        styledCharacter.innerText = character
+        styledCharacter.classList.value = styles
 
-//     for (let storyIndex = 0; storyIndex < beamStories.length; storyIndex++) {
-//       const story = beamStories[storyIndex];
+        textview.appendChild(styledCharacter)
+      }
 
-//       // Keeping plain text version to be used for calculating layout
-//       // and filtering "bad" words.
-//       //
-//       const plainText = story.content.reduce((text, run) => text + run.text, "")
+      // If the updated time was null then there will be no more updates
+      // so we remove the last updated attribute. Otherwise, just
+      // set the new updated time.
+      if (post.updated_time == null) {
+        textview.removeAttribute("last-updated")
+      } else {
+        textview.setAttribute("last-updated", String(post.updated_time))
+      }
+    }
+  }
+}
 
-//       // Build formatted text spans inside an article container
-//       const storyContainer = document.createElement("article")
+const updatePosts = async () => {
+  const postGrid = document.getElementById("second-beam")!
+  const response = await fetch(BASE_URL + "/posts", {
+    method: "GET",
+    headers: {
+      "X-INSTALLATION-KEY": INSTALLATION_KEY,
+    }
+  })
 
-//       // Make long text double lined
-//       if (plainText.length > 20) {
-//         storyContainer.classList.add("double-line")
-//         storyContainer.style.width = plainText.length / 3 + "vw"
-//       }
+  const posts = await response.json() as Post[]
 
-//       for (const run of story.content) {
-//         const runText = document.createElement("span")
-//         runText.innerText = run.text
-//         runText.classList.add(mapFont(run.fontFamily))
-//         runText.classList.add(mapColour(run.color))
-//         storyContainer.appendChild(runText)
-//       }
+  posts.sort((a, b) => a.created_time - b.created_time)
 
+  for (const post of posts) {
+    const textview = document.getElementById(post.id)
 
-//       // Append article container to the beam element
-//       beamElement.appendChild(storyContainer)
-//     }
-//   }
-// }
+    if (textview) {
+      // Update existing text
+      updateTextViewElement(textview, post)
+    } else {
+      // Create new text
+      postGrid.prepend(createTextViewElement(post))
+    }
+  }
+
+  for (const textview of document.getElementsByClassName("text-viewer")) {
+    const lastUpdatedAttribute = textview.getAttribute("last-updated")
+    const expiry = Date.now() - 10 * 1000
+    if (lastUpdatedAttribute && parseInt(lastUpdatedAttribute) < expiry) {
+      console.log(textview.id + " has expired, removing.")
+      textview.remove()
+    }
+  }
+
+  // TODO: Posts beyond the first beam should get moved to the second beam.
+}
+
+updatePosts()
+setInterval(() => {
+  updatePosts()
+}, 1000)

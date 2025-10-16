@@ -1,5 +1,6 @@
 :root {
   --text-outline: 1.5px;
+  --content-font-size: 40px;
   --grid-columns: 3;
   --grid-rows: 6;
   --link-font-size: 80px;
@@ -59,7 +60,6 @@ body {
 #post-grid>:nth-child(n),
 #post-grid>:nth-child(3n) {
   border: 2px solid red;
-  /* margin-left: 50px; */
   rotate: -1deg;
   transform: translate(20px, 10px);
   /* animation: flicker 0.7s linear infinite; */
@@ -68,7 +68,6 @@ body {
 #post-grid>:nth-child(4n),
 #post-grid>:nth-child(2n) {
   border: 2px solid green;
-  /* margin-left: 100px; */
   rotate: 2deg;
   transform: translate(-10px, -5px);
   /* animation: flicker 1s linear infinite; */
@@ -76,7 +75,6 @@ body {
 
 #post-grid>:nth-child(5n) {
   border: 2px solid blue;
-  /* margin-left: 100px; */
   rotate: -3deg;
   transform: translate(5px, -10px);
   /* animation: flicker 0.5s linear infinite; */
@@ -90,20 +88,3 @@ body {
   gap: 1rem;
   height: min-content;
 }
-
-/* #link-info .large {
-  font-size: var(--link-font-size-large);
-}
-
-#link-info span {
-  -webkit-text-stroke: var(--text-outline) var(--text-colour);
-  color: transparent;
-  font-family: "BebasNeue";
-  font-size: var(--link-font-size);
-  background: repeating-linear-gradient(45deg,
-      transparent,
-      transparent var(--hatch-fill-gap),
-      var(--text-colour) var(--hatch-fill-gap),
-      var(--text-colour) calc(var(--hatch-fill-gap) + var(--hatch-fill-thickness)));
-  background-clip: text;
-} */

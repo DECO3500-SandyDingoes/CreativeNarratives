@@ -1,5 +1,9 @@
 :root {
   --text-outline: 0.03vw;
+  --link-font-size: 1.8vw;
+  --link-font-size-large: 2.1vw;
+  --hatch-fill-gap: 0.1vw;
+  --hatch-fill-thickness: 0.08vw;
 }
 
 body {
@@ -24,32 +28,25 @@ body {
 }
 
 .beam {
-  border: red solid 0.05vw;
-  display: flex;
-  align-items: center;
-  gap: 0.5vw;
-  padding-left: 0.1vw;
-}
-
-#projection>* {
-  text-shadow: 0 0 0.7vw #0000004a;
   font-family: "Graffiti Youth";
-  overflow: hidden;
-  text-wrap-mode: nowrap;
+  filter: brightness(160%);
   color: transparent;
   -webkit-text-stroke: var(--text-outline) rgb(182, 255, 23);
+  /* border: red solid 0.05vw; */
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  gap: 0.5vw;
+  padding-left: 0.1vw;
+  overflow: hidden;
 }
 
 #first-beam {
-  filter: brightness(250%) saturate(150%);
   animation-delay: 1s;
   font-size: 2vw;
   width: 70.5vw;
   height: 3vw;
   box-sizing: border-box;
-  clip-path: polygon(100.01% 0.02%, 100% 100%, 0% 100%, -0.12% -0.81%, 12.89% 14.44%, 14.98% 78.89%, 17.58% 2.70%, 25.31% -0.18%) view-box;
+  /* clip-path: polygon(100.01% 0.02%, 100% 100%, 0% 100%, -0.12% 0.44%, 13.46% 0.24%, 14.98% 78.89%, 17.58% 2.7%, 25.31% -0.18%) view-box; */
   transform: translate(38vw, 27.3vw) perspective(50vw) rotateX(416.5deg) rotateY(54.5deg) rotateZ(-28.7deg);
   /* opacity: 0.6; */
 }
@@ -74,13 +71,12 @@ body {
 }
 
 #link-info {
-  width: 12vw;
-  font-family: "BebasNeue";
-  font-size: 1.5vw;
-  line-height: 1.2vw;
   display: grid;
-  grid-template-columns: min-content 1fr;
-  column-gap: 0.4vw;
-  align-self: flex-end;
-  padding-right: 3vw;
+  grid-template-columns: 1fr 1fr 1fr;
+  line-height: 1.4vw;
+}
+
+#link-info>:first-child {
+  grid-column-start: 1;
+  grid-column-end: 4;
 }

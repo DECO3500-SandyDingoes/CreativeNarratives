@@ -2,6 +2,10 @@
   --text-outline: 1.5px;
   --grid-columns: 3;
   --grid-rows: 6;
+  --link-font-size: 80px;
+  --link-font-size-large: 130px;
+  --hatch-fill-gap: 4px;
+  --hatch-fill-thickness: 1px;
 }
 
 body {
@@ -87,19 +91,19 @@ body {
   height: min-content;
 }
 
-#link-info .large {
-  font-size: 130px;
+/* #link-info .large {
+  font-size: var(--link-font-size-large);
 }
 
 #link-info span {
   -webkit-text-stroke: var(--text-outline) var(--text-colour);
   color: transparent;
   font-family: "BebasNeue";
-  font-size: 80px;
+  font-size: var(--link-font-size);
   background: repeating-linear-gradient(45deg,
       transparent,
-      transparent 4px,
-      var(--text-colour) 4px,
-      var(--text-colour) 5px);
+      transparent var(--hatch-fill-gap),
+      var(--text-colour) var(--hatch-fill-gap),
+      var(--text-colour) calc(var(--hatch-fill-gap) + var(--hatch-fill-thickness)));
   background-clip: text;
-}
+} */

@@ -58,3 +58,60 @@
       var(--text-colour) calc(var(--hatch-fill-gap) + var(--hatch-fill-thickness)));
   background-clip: text;
 }
+
+.text-viewer:nth-child(n),
+.text-viewer:nth-child(3n) {
+  border: var(--text-outline) solid var(--border-colour-1);
+  rotate: -1deg;
+  animation: flicker 0.15s linear infinite;
+  transform: translate(calc(var(--jitter-displacement) * 3), calc(var(--jitter-displacement) * 2)) var(--current-glitch-displacement);
+}
+
+.text-viewer:nth-child(4n),
+.text-viewer:nth-child(2n) {
+  border: var(--text-outline) solid var(--border-colour-2);
+  rotate: 2deg;
+  transform: translate(calc(var(--jitter-displacement) * -2), calc(var(--jitter-displacement) * -1)) var(--current-glitch-displacement);
+  animation: flicker 0.2s linear infinite;
+}
+
+.text-viewer:nth-child(5n) {
+  border: var(--text-outline) solid var(--border-colour-3);
+  rotate: -3deg;
+  transform: translate(var(--jitter-displacement), calc(var(--jitter-displacement) * -2)) var(--current-glitch-displacement);
+  animation: flicker 0.1s linear infinite;
+}
+
+.text-viewer:nth-child(5n) {
+  border: var(--text-outline) solid var(--border-colour-6);
+  rotate: -3deg;
+  transform: translate(var(--jitter-displacement), calc(var(--jitter-displacement) * -2)) var(--current-glitch-displacement);
+  animation: flicker 0.1s linear infinite;
+}
+
+@keyframes flicker {
+
+  0%,
+  19%,
+  22%,
+  62%,
+  64% {
+    --current-glitch-displacement: translate(0px)
+  }
+
+  70% {
+    --current-glitch-displacement: translate(0, var(--glitch-displacement))
+  }
+
+  100% {
+    --current-glitch-displacement: translate(var(--glitch-displacement))
+  }
+
+  20%,
+  21%,
+  63%,
+  65%,
+  69.9% {
+    --current-glitch-displacement: translate(0px)
+  }
+}

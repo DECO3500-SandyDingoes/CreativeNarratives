@@ -7,6 +7,15 @@
   --link-font-size-large: 130px;
   --hatch-fill-gap: 4px;
   --hatch-fill-thickness: 1px;
+  --jitter-displacement: 5px;
+  --glitch-displacement: 0.3px;
+
+  --border-colour-1: #FF0000;
+  --border-colour-2: #0088ff;
+  --border-colour-3: #287900;
+  --border-colour-4: #5d00d6;
+  --border-colour-5: #9f6200;
+  --border-colour-6: #FFEE06;
 }
 
 body {
@@ -30,54 +39,9 @@ body {
   justify-items: stretch;
 }
 
-@keyframes flicker {
-
-  0%,
-  19%,
-  22%,
-  62%,
-  64%,
-  70%,
-  100% {
-    transform: translate(1px);
-  }
-
-  20%,
-  21%,
-  63%,
-  65%,
-  69.9% {
-    transform: translate(0px);
-  }
-}
-
 #post-grid>* {
   border-radius: 20px;
   padding: 10px;
-  /* animation: flicker 0.4s linear infinite; */
-}
-
-#post-grid>:nth-child(n),
-#post-grid>:nth-child(3n) {
-  border: 2px solid red;
-  rotate: -1deg;
-  transform: translate(20px, 10px);
-  /* animation: flicker 0.7s linear infinite; */
-}
-
-#post-grid>:nth-child(4n),
-#post-grid>:nth-child(2n) {
-  border: 2px solid green;
-  rotate: 2deg;
-  transform: translate(-10px, -5px);
-  /* animation: flicker 1s linear infinite; */
-}
-
-#post-grid>:nth-child(5n) {
-  border: 2px solid blue;
-  rotate: -3deg;
-  transform: translate(5px, -10px);
-  /* animation: flicker 0.5s linear infinite; */
 }
 
 #link-info {

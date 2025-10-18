@@ -36,6 +36,10 @@ body {
   padding: 0.1vw;
 }
 
+.text-viewer:empty {
+  display: none;
+}
+
 .text-viewer:nth-child(3n) {
   rotate: -3deg;
   transform: translate(0.2vw, 0.1vw);
@@ -68,6 +72,8 @@ body {
   height: 3vw;
   box-sizing: border-box;
   transform: translate(36vw, 28.8vw) perspective(50vw) rotateX(398deg) rotateY(54.5deg) rotateZ(-13.7deg);
+  padding-bottom: 0.2vw;
+  padding-left: 0.1vw;
 
   --border-colour-1: #FF0000;
   --border-colour-2: #0088ff;

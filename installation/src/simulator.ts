@@ -115,7 +115,8 @@ const updateTextViewElement = (textview: HTMLElement, post: Post) => {
 }
 
 const updatePosts = async () => {
-  const postGrid = document.getElementById("second-beam")!
+  const secondBeam = document.getElementById("second-beam")!
+  const thirdBeam = document.getElementById("third-beam")!
   const response = await fetch(BASE_URL + "/posts", {
     method: "GET",
     headers: {
@@ -135,7 +136,11 @@ const updatePosts = async () => {
       updateTextViewElement(textview, post)
     } else {
       // Create new text
-      postGrid.prepend(createTextViewElement(post))
+      if (secondBeam.childElementCount <= thirdBeam.childElementCount) {
+        secondBeam.prepend(createTextViewElement(post))
+      } else {
+        thirdBeam.prepend(createTextViewElement(post))
+      }
     }
   }
 

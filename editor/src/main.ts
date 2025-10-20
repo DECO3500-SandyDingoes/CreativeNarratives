@@ -269,6 +269,8 @@ const renderToolbar = () => {
 
   const randomOption = document.createElement("span")
   randomOption.innerText = "🔀"
+  randomOption.onclick = () =>
+    handleToolbarSelectColour(colourClassOptions[Math.round(Math.random() * (colourClassOptions.length - 1))])
   randomOption.classList.add("font-option")
   toolbar.appendChild(randomOption)
 }

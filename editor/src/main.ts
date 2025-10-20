@@ -3,8 +3,6 @@ import './start.css'
 import './style.css'
 import { BASE_URL } from "../../shared/shared"
 
-// TODO: Implement save button!
-
 // Global State
 let currentKeyboardFont = "font-montserrat"
 let currentKeyboardColour = "colour-red"
@@ -360,7 +358,8 @@ const switchInterfaceState = (state: InterfaceState) => {
 const connectButton = document.getElementById("connect-button")! as HTMLInputElement
 const connectCode = document.getElementById("connect-code")! as HTMLInputElement
 
-connectButton.addEventListener("click", async () => {
+connectButton.addEventListener("click", async (e) => {
+  e.preventDefault()
   const code = connectCode.value
 
   connectButton.disabled = true

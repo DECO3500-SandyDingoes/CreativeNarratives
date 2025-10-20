@@ -24,28 +24,28 @@ const alphaLayout = [
   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
   ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
   ["aA", "z", "x", "c", "v", "b", "n", "m", "delete"],
-  ["?123", ",", "space", ".", "break"]
+  ["?123", ",", "space", ".", ""]
 ]
 
 const alphaUpperLayout = [
   ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
   ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
   ["Aa", "Z", "X", "C", "V", "B", "N", "M", "delete"],
-  ["?123", ",", "space", ".", "break"]
+  ["?123", ",", "space", ".", ""]
 ]
 
 const numericSymbolLayout = [
   ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
   ["@", "#", "$", "_", "&", "-", "+", "(", ")", "/"],
   ["=\\<", "*", "\"", "'", ":", ";", "!", "?", "delete"],
-  ["ABC", ",", "space", ".", "break"]
+  ["ABC", ",", "space", ".", ""]
 ]
 
 const numericSymbolExtraLayout = [
   ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
   ["~", "`", "|", "^", "=", "{", "}", "[", "]", "\\"],
   ["?123", "%", "<", ">", "-", "-", "-", "-", "delete"],
-  ["ABC", ",", "space", ".", "break"]
+  ["ABC", ",", "space", ".", ""]
 ]
 
 // Keyboard and text input handling
@@ -72,6 +72,9 @@ const handleKeyboardPress = (key: string) => {
       break;
     case "space":
       appendChar(" ")
+      break;
+    case "":
+      // disabled key
       break;
     default:
       appendChar(key)
@@ -188,7 +191,7 @@ const renderKeyboard = (layout: string[][]) => {
       keyboardKey.onclick = () => handleKeyboardPress(key)
       if (key == "space") {
         keyboardKey.classList.add("space")
-      } else if (key.length > 1) {
+      } else if (key.length > 1 || key.length == 0) {
         keyboardKey.classList.add("special")
       } else {
         keyboardKey.classList.add("key")

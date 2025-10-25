@@ -1,7 +1,8 @@
 # Creative Narratives
 
-**Creative Narratives** aims to investigate how collaborative public art installations could serve as a medium for supporting community narrative and awareness. The implementation and design documentation of this repository focuses on a location specific experience, **under.place** at the Ekibin Park South Street Art Wall. 
+<img align="right" width="50%" src="assets/preview-simulator.jpg">
 
+**Creative Narratives** aims to investigate how collaborative public art installations could serve as a medium for supporting community narrative and awareness. The implementation and design documentation of this repository focuses on a location specific experience, **under.place** at the Ekibin Park South Street Art Wall. 
 
 ## Documentation
 

@@ -14,14 +14,9 @@ This repository contains the components of the functional evaluation prototype, 
 
 The prototype consists of three primary components, the editor, the serverless functions, and the installation.
 
-- **Editor** (`/editor`) implements a web application designed to be accessed via mobile devices for the authoring and sharing of stories (content) to the installation. The editor is designed to be deployed to Cloudflare's pages platform.
-- **Serverless functions** (`/functions`) implements a HTTP web API with endpoints used to post and retrieve stories (content) from the backend database. It also implements authentication and provides an endpoint for the **installation** the manage the rolling codes used for controlling access. The endpoints are implemented using the serverless [Cloudflare pages functions](https://developers.cloudflare.com/pages/functions/) API. The following resource bindings are required by the pages functions:
-	- **KV namespace**
-		- Name: `kv`
-	- **D1 database**
-		- Name: `db`
-- **Installation** (`/installation`) implements a web application that fetches stories from the **serverless functions** web API, and then renders them either into a simulated scene or as output ready to be projected.
-	- Depends on an API key defined in `/installation/src/.env.local` as `INSTALLATION_KEY` to gain read access to stories and set rolling codes. The API key must match the value defined in the **KV namespace** binding of the serverless API.
+- **Editor** (`/editor`) implements a mobile-first web application for the authoring and posts on the installation. The editor is designed to be deployed to Cloudflare's pages platform.
+- **Serverless functions** (`/functions`) implements a HTTP web API with endpoints used to post and retrieve posts (content) from the backend database. It also implements authentication and provides an endpoint for managing the rolling connection code displayed on the installation. The endpoints are implemented using the serverless [Cloudflare pages functions](https://developers.cloudflare.com/pages/functions/) API. 
+- **Installation** (`/installation`) implements a web application that fetches posts from the **serverless functions** API and renders them either into a simulated scene or as output ready to be projected.
   
 ![A side by side view of the story editor on the left, the installation simulator in the middle, and the installation projector output on the right](/assets/preview.jpg "Overview of implemented interfaces")
 
@@ -32,9 +27,28 @@ The prototype consists of three primary components, the editor, the serverless f
 The **editor** and **installation** allow for running locally via the following steps:
 
 - **Install Dependencies**: To install dependencies run: `npm install`
-- **Local Development:**
+- **Cloud Services (Cloudflare Pages Platform)**
+	- Pages deployment configuration:
+		- Build command: `npm -w editor run build`
+		- Build output: `editor/dist`
+	-	To use an existing API key, create the file `.\installation\.env.local` with the contents `INSTALLATION_KEY=<API_KEY_HERE>` where `<API_KEY_HERE>` is your API key.
+	- To deploy your own API services, create the following resource bindings:
+		- A *KV namespace* with name `kv` with key/values:
+			- `INSTALLATION_KEY` = `<API_KEY_HERE>` *This is the API key used by the installation*
+			- `code` = `1234` *This is the initial connection code before first start of the installation*
+		- A *D1 store* with name `db` with schema:
+			```
+			CREATE TABLE "posts"(
+				"id" TEXT NOT NULL,
+				"created_time" INTEGER NOT NULL,
+				"updated_time" INTEGER,
+				"content" TEXT NOT NULL,
+				PRIMARY KEY ("id")
+			)
+			```
+- **Running Local Development Server:**
 	- **Installation:** To start the local development server run: `npm -w installation run dev`
 	- **editor:** To start the local development server run: `npm -w editor run dev`
-- **Build for Production**
+- **Building for Production**
 	- **Installation:** To start the local development server run: `npm -w installation run build`
 	- **editor:** To start the local development server run: `npm -w editor run build`
